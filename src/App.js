@@ -3,24 +3,18 @@ import './App.css';
 import React, { useState } from 'react';
 
 const PastSensedTimes = () => (
-    <ol id="pastTimesList"></ol>
+  <ol id="pastTimesList"></ol>
 )
 
 const AverageSensedTime = () => (
   <>
     <button id="toggleAverage" style={{backgroundColor: "darkslategrey"}}>Average</button>
     <div id="average" style={{visibility: "hidden"}}>
-        <label for="averageTargetTime">Average Target Time:</label><p id="averageTargetTime"></p>
-        <label for="averageActualTime">Average Actual Time:</label><p id="averageActualTime"></p>
+        <label>Average Target Time:</label><p id="averageTargetTime"></p>
+        <label>Average Actual Time:</label><p id="averageActualTime"></p>
     </div>
   </>
 )
-
-const TimeSensorState = {
-  Ready: 'Ready',
-  Started: 'Started',
-  Stopped: 'Stopped '
-}
 
 const useInput =({ type, value }) => {
   const [inputValue, setInputValue] = useState(value);
@@ -28,18 +22,66 @@ const useInput =({ type, value }) => {
   return [inputValue, input];
 }
 
-const TimeSensor = () => {
+const TimeSensorState = {
+  Ready: 'Ready',
+  Started: 'Started',
+  Stopped: 'Stopped '
+}
+
+const TimeSensor = ({onTimeSensed}) => {
   const [timeSensorState, setTimeSensorState] = useState(TimeSensorState.Ready);
+  const [timeSensorButtonText, setTimeSensorButtonText] = useState('Start')
+  const [timeSensorButtonBackgroundColor, setTimeSensorButtonBackgroundColor] = useState('limegreen')
   const [actualSensedTime, setActualSensedTime] = useState(0)
   const [startSensedTime, setStartSensedTime] = useState(0)
   const [stopSensedTime, setStopSensedTime] = useState(0)
+  const [sensedTimeVisibility, setSensedTimeVisibility] = useState('hidden')
+
   const [targetSensedTime, targetSensedTimeInput] = useInput({type: 'number', value: '0'})
+
+  console.log('Function Running')
+
+  const timeSensorActions = {
+    [TimeSensorState.Ready]: () => {
+      setTimeSensorState(TimeSensorState.Started)
+      setTimeSensorButtonText('Stop')
+      setTimeSensorButtonBackgroundColor('tomato')
+      setStartSensedTime(Date.now())
+    },
+    [TimeSensorState.Started]: () => {
+      setTimeSensorState(TimeSensorState.Stopped)
+      setTimeSensorButtonBackgroundColor('mediumaquamarine')
+      setTimeSensorButtonText('Reset')
+      setStopSensedTime(Date.now())
+      console.log('stopSensedTime', stopSensedTime)
+      console.log('startSensedTime', startSensedTime)
+      const actualTime = (stopSensedTime - startSensedTime) / 1000
+      console.log('actualTime', actualTime)
+      setActualSensedTime(actualTime)
+      setSensedTimeVisibility('visible')
+    },
+    [TimeSensorState.Stopped]: () => {
+      const targetTime = parseInt(targetSensedTime)
+      onTimeSensed({ targetTime, actualTime: actualSensedTime })
+      setTimeSensorState(TimeSensorState.Ready)
+      setSensedTimeVisibility('hidden')
+      setTimeSensorButtonText('Start')
+      setTimeSensorButtonBackgroundColor('limegreen')
+    }
+  }
 
   return (
     <>
       {targetSensedTimeInput}
-      <button id="timeSensorButton" style={{backgroundColor: "4caf50"}}>Start</button>
-      <p id="sensedTime" style={{visibility: "hidden"}}></p>
+      <button
+        style={{backgroundColor: timeSensorButtonBackgroundColor}}
+        onClick={() => timeSensorActions[timeSensorState]()}
+      >
+        {timeSensorButtonText}
+      </button>
+      <p>Start Sensed Time: '{startSensedTime}'</p>
+      <p>Stop Sensed Time: '{stopSensedTime}'</p>
+      <p style={{visibility: sensedTimeVisibility}}>{(actualSensedTime)}</p>
     </>
   )
   }
@@ -48,12 +90,12 @@ const Dashboard = () => (
   <div id="dashboard">
     <PastSensedTimes></PastSensedTimes>
     <AverageSensedTime></AverageSensedTime>
-    <TimeSensor></TimeSensor>
+    <TimeSensor onTimeSensed={(sensedTime) => console.log(sensedTime)}></TimeSensor>
   </div>
 )
 
 const App = () => (
-  <body className="container">
+  <div className="container">
     <header className="logo">
       <img src={logo} className="App-logo" alt="logo" />
       <h1>TimeSense</h1>
@@ -61,7 +103,7 @@ const App = () => (
     <div className="main">
       <Dashboard></Dashboard>
     </div>
-  </body>
+  </div>
 )
 
 export default App;
