@@ -28,15 +28,18 @@ const TimeSensorState = {
   Stopped: 'Stopped '
 }
 
+const UpdatedTimeSensorButtonText = {
+  [TimeSensorState.Ready]: 'Start',
+  [TimeSensorState.Started]: 'Stop',
+  [TimeSensorState.Stopped]: 'Reset'
+}
+
 const TimeSensor = ({onTimeSensed}) => {
   const [timeSensorState, setTimeSensorState] = useState(TimeSensorState.Ready);
-  const [timeSensorButtonText, setTimeSensorButtonText] = useState('Start')
   const [timeSensorButtonBackgroundColor, setTimeSensorButtonBackgroundColor] = useState('limegreen')
-  const [actualSensedTime, setActualSensedTime] = useState(0)
   const [startSensedTime, setStartSensedTime] = useState(0)
-  const [stopSensedTime, setStopSensedTime] = useState(0)
-  const [sensedTimeVisibility, setSensedTimeVisibility] = useState('hidden')
-
+  const [actualSensedTime, setActualSensedTime] = useState(0)
+  const [displaySensedTime, setDisplaySensedTime] = useState(false)
   const [targetSensedTime, targetSensedTimeInput] = useInput({type: 'number', value: '0'})
 
   console.log('Function Running')
@@ -44,28 +47,22 @@ const TimeSensor = ({onTimeSensed}) => {
   const timeSensorActions = {
     [TimeSensorState.Ready]: () => {
       setTimeSensorState(TimeSensorState.Started)
-      setTimeSensorButtonText('Stop')
       setTimeSensorButtonBackgroundColor('tomato')
       setStartSensedTime(Date.now())
     },
     [TimeSensorState.Started]: () => {
       setTimeSensorState(TimeSensorState.Stopped)
       setTimeSensorButtonBackgroundColor('mediumaquamarine')
-      setTimeSensorButtonText('Reset')
-      setStopSensedTime(Date.now())
-      console.log('stopSensedTime', stopSensedTime)
-      console.log('startSensedTime', startSensedTime)
+      const stopSensedTime = Date.now()
       const actualTime = (stopSensedTime - startSensedTime) / 1000
-      console.log('actualTime', actualTime)
       setActualSensedTime(actualTime)
-      setSensedTimeVisibility('visible')
+      setDisplaySensedTime(true)
     },
     [TimeSensorState.Stopped]: () => {
       const targetTime = parseInt(targetSensedTime)
       onTimeSensed({ targetTime, actualTime: actualSensedTime })
       setTimeSensorState(TimeSensorState.Ready)
-      setSensedTimeVisibility('hidden')
-      setTimeSensorButtonText('Start')
+      setDisplaySensedTime(false)
       setTimeSensorButtonBackgroundColor('limegreen')
     }
   }
@@ -77,11 +74,9 @@ const TimeSensor = ({onTimeSensed}) => {
         style={{backgroundColor: timeSensorButtonBackgroundColor}}
         onClick={() => timeSensorActions[timeSensorState]()}
       >
-        {timeSensorButtonText}
+        {UpdatedTimeSensorButtonText[timeSensorState]}
       </button>
-      <p>Start Sensed Time: '{startSensedTime}'</p>
-      <p>Stop Sensed Time: '{stopSensedTime}'</p>
-      <p style={{visibility: sensedTimeVisibility}}>{(actualSensedTime)}</p>
+      {displaySensedTime && <p>{(actualSensedTime)}</p>}
     </>
   )
   }
