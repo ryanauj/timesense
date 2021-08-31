@@ -1,19 +1,40 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { RequestStatus } from '../../app/RequestStatus'
+import { Auth } from 'aws-amplify'
 
 const initialState = {
-  authState: null,
-  user: null
+  isAuthenticated: false,
+  status: RequestStatus.Idle,
+  error: null
 }
 
-export const selectAuthState = state => state.authentication.authState
-export const selectUser = state => state.authentication.user
+export const selectIsAuthenticated = state =>
+  state.authentication.isAuthenticated
+
+export const signIn = createAsyncThunk(
+  'authentication/signIn',
+  async ({ email, password }) => {
+    const response = await Auth.signIn(email, password)
+    return response.posts
+  }
+)
 
 const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
-  reducers: {
-    authUIStateChanged: (state, action) => {
-      state.authentication = action.payload
+  reducers: {},
+  extraReducers: {
+    [signIn.pending]: state => {
+      state.status = RequestStatus.Pending
+    },
+    [signIn.fulfilled]: (state, action) => {
+      state.status = RequestStatus.Succeeded
+      state.isAuthenticated = true
+    },
+    [signIn.rejected]: (state, action) => {
+      state.status = RequestStatus.Failed
+      state.error = action.error.message
+      state.isAuthenticated = false
     }
   }
 })
