@@ -1,60 +1,29 @@
 import logo from './logo.svg'
 import './App.css'
 import React from 'react'
-import TimeSensor from './features/time-sensor/TimeSensor'
-import { useSelector } from 'react-redux'
-import {
-  selectSensedTimeById,
-  selectSensedTimeIds
-} from './features/sensed-times/sensedTimesSlice'
 
-const PastSensedTime = ({ sensedTimeId }) => {
-  const sensedTime = useSelector(state =>
-    selectSensedTimeById(state, sensedTimeId)
-  )
-  return (
-    <li key={sensedTimeId}>
-      <p>
-        <label>Target Time: </label>
-        <span>{sensedTime.targetTime}</span>
-      </p>
-      <p>
-        <label>Actual Time: </label>
-        <span>{sensedTime.actualTime}</span>
-      </p>
-    </li>
-  )
-}
+import { Dashboard } from './app/Dashboard'
+import Amplify, { Auth } from 'aws-amplify'
 
-const PastSensedTimes = () => {
-  const sensedTimeIds = useSelector(selectSensedTimeIds)
-  const pastSensedTimes = sensedTimeIds.map(sensedTimeId => (
-    <PastSensedTime sensedTimeId={sensedTimeId}></PastSensedTime>
-  ))
-  return <ol id='pastTimesList'>{pastSensedTimes}</ol>
-}
+Amplify.configure({
+  Auth: {
+    identityPoolId: 'us-east-2:c346a28f-75f7-43b1-82c5-7f21b366fe13',
+    region: 'us-east-2',
+    userPoolId: 'us-east-2_aXciLqWGq',
+    userPoolWebClientId: 'ilnugc8om6hkk147inavg57t6'
+  },
+  API: {
+    endpoints: [
+      {
+        name: 'TimeSenseApiTest',
+        endpoint: 'https://df7tqt6gnf.execute-api.us-east-2.amazonaws.com/test'
+      }
+    ]
+  }
+})
 
-const AverageSensedTime = () => (
-  <>
-    <button id='toggleAverage' style={{ backgroundColor: 'darkslategrey' }}>
-      Average
-    </button>
-    <div id='average' style={{ visibility: 'hidden' }}>
-      <label>Average Target Time:</label>
-      <p id='averageTargetTime'></p>
-      <label>Average Actual Time:</label>
-      <p id='averageActualTime'></p>
-    </div>
-  </>
-)
-
-const Dashboard = () => (
-  <div id='dashboard'>
-    <PastSensedTimes></PastSensedTimes>
-    <AverageSensedTime></AverageSensedTime>
-    <TimeSensor></TimeSensor>
-  </div>
-)
+// You can get the current config object
+const currentConfig = Auth.configure()
 
 const App = () => (
   <div className='container'>
