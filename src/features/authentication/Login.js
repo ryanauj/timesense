@@ -1,4 +1,5 @@
 import { unwrapResult } from '@reduxjs/toolkit'
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import useInput from '../../hooks/useInput'
@@ -10,9 +11,7 @@ export const Login = () => {
   const [password, passwordComponent, setPassword] = useInput('password', '')
   const isAuthenticated = useSelector(selectIsAuthenticated)
 
-  if (isAuthenticated) {
-    return <Redirect push to='/' />
-  }
+  if (isAuthenticated) return <Redirect push to='/' />
 
   const validateForm = () =>
     email && email.length > 0 && password && password.length > 0
@@ -20,10 +19,14 @@ export const Login = () => {
   const handleSubmit = async event => {
     try {
       event.preventDefault()
-      const signInAction = await dispatch(signIn({ email, password }))
-      unwrapResult(signInAction)
+      const emailToInput = email
+      const passwordToInput = password
       setEmail('')
       setPassword('')
+      const signInAction = await dispatch(
+        signIn({ email: emailToInput, password: passwordToInput })
+      )
+      unwrapResult(signInAction)
     } catch (err) {
       console.log('Failed to login: ', err)
     }
