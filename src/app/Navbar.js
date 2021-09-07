@@ -1,14 +1,27 @@
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { selectIsAuthenticated } from '../features/authentication/authenticationSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { Link, useHistory } from 'react-router-dom'
+import {
+  selectIsAuthenticated,
+  signOut
+} from '../features/authentication/authenticationSlice'
 
 export const Navbar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
+  const history = useHistory()
+  const dispatch = useDispatch()
+
+  const handleLogout = async () => {
+    await dispatch(signOut())
+    history.push('/')
+  }
 
   const authenticationLinks = isAuthenticated ? (
-    <Link to='/logout'>| Logout |</Link>
+    <button onClick={handleLogout}>| Logout |</button>
   ) : (
-    <Link to='/login'>| Login |</Link>
+    <>
+      <Link to='/signup'>| Signup |</Link>
+      <Link to='/login'>| Login |</Link>
+    </>
   )
 
   return (

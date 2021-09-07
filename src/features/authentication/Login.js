@@ -1,15 +1,18 @@
 import { unwrapResult } from '@reduxjs/toolkit'
-import { useDispatch } from 'react-redux'
-import { useState } from 'react'
-import { RequestStatus } from '../../app/RequestStatus'
+import { useDispatch, useSelector } from 'react-redux'
+import { Redirect } from 'react-router-dom'
 import useInput from '../../hooks/useInput'
-import { signIn } from './authenticationSlice'
+import { selectIsAuthenticated, signIn } from './authenticationSlice'
 
 export const Login = () => {
   const dispatch = useDispatch()
   const [email, emailComponent, setEmail] = useInput('email', '')
   const [password, passwordComponent, setPassword] = useInput('password', '')
-  const [signInStatus, setSignInStatus] = useState(RequestStatus.Idle)
+  const isAuthenticated = useSelector(selectIsAuthenticated)
+
+  if (isAuthenticated) {
+    return <Redirect push to='/' />
+  }
 
   const validateForm = () =>
     email && email.length > 0 && password && password.length > 0
@@ -17,15 +20,12 @@ export const Login = () => {
   const handleSubmit = async event => {
     try {
       event.preventDefault()
-      setSignInStatus(RequestStatus.Pending)
       const signInAction = await dispatch(signIn({ email, password }))
       unwrapResult(signInAction)
       setEmail('')
       setPassword('')
     } catch (err) {
       console.log('Failed to login: ', err)
-    } finally {
-      setSignInStatus(RequestStatus.Idle)
     }
   }
 

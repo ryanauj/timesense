@@ -1,14 +1,10 @@
 import React from 'react'
 
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect
-} from 'react-router-dom'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
 import { Navbar } from './app/Navbar'
 import { Login } from './features/authentication/Login'
+import { Signup } from './features/authentication/Signup'
 import { Dashboard } from './app/Dashboard'
 import Amplify, { Auth } from 'aws-amplify'
 
@@ -17,8 +13,8 @@ Amplify.configure({
     mandatorySignIn: true,
     identityPoolId: 'us-east-2:c346a28f-75f7-43b1-82c5-7f21b366fe13',
     region: 'us-east-2',
-    userPoolId: 'us-east-2_aXciLqWGq',
-    userPoolWebClientId: 'ilnugc8om6hkk147inavg57t6'
+    userPoolId: 'us-east-2_9D2sD2SED',
+    userPoolWebClientId: '1r1tgqd734fnth6u8fr9gcuh7j'
   },
   API: {
     endpoints: [
@@ -41,6 +37,7 @@ const App = () => {
       <Switch>
         <Route exact path='/' component={Dashboard} />
         <Route exact path='/login' component={Login} />
+        <Route exact path='/signup' component={Signup} />
       </Switch>
     </Router>
   )
