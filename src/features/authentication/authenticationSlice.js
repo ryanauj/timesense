@@ -71,8 +71,16 @@ const authenticationSlice = createSlice({
       state.signUpStatus = RequestStatus.Failed
       state.signUpError = action.error.message
     },
+    [signOut.pending]: state => {
+      state.signOutStatus = RequestStatus.Pending
+    },
     [signOut.fulfilled]: state => {
+      state.signOutStatus = RequestStatus.Succeeded
       state.isAuthenticated = false
+    },
+    [signOut.rejected]: (state, action) => {
+      state.signOutStatus = RequestStatus.Failed
+      state.signOutError = action.error.message
     }
   }
 })

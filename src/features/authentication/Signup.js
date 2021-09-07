@@ -1,8 +1,8 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import useInput from '../../hooks/useInput'
-import { signUp } from './authenticationSlice'
+import { selectSignUpError, signUp } from './authenticationSlice'
 
 export const Signup = () => {
   const dispatch = useDispatch()
@@ -10,6 +10,7 @@ export const Signup = () => {
   const [password, passwordComponent] = useInput('password', '')
   const [confirmPassword, confirmPasswordComponent] = useInput('password', '')
   const [newUser, setNewUser] = useState(null)
+  const error = useSelector(selectSignUpError)
 
   const validateForm = () =>
     email &&
@@ -47,6 +48,7 @@ export const Signup = () => {
         <button type='submit' disabled={!validateForm()}>
           Signup
         </button>
+        {error !== null ? <p>{error}</p> : null}
       </form>
     </div>
   )
@@ -55,9 +57,11 @@ export const Signup = () => {
     <p>Please confirm email with verification link.</p>
   )
 
+  const useSignupForm = newUser === null || error !== null
+
   return (
     <div className='signup'>
-      {newUser === null ? signupForm() : confirmationForm()}
+      {useSignupForm ? signupForm() : confirmationForm()}
     </div>
   )
 }

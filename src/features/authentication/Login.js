@@ -2,13 +2,18 @@ import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import useInput from '../../hooks/useInput'
-import { selectIsAuthenticated, signIn } from './authenticationSlice'
+import {
+  selectAuthenticationError,
+  selectIsAuthenticated,
+  signIn
+} from './authenticationSlice'
 
 export const Login = () => {
   const dispatch = useDispatch()
   const [email, emailComponent, setEmail] = useInput('email', '')
   const [password, passwordComponent, setPassword] = useInput('password', '')
   const isAuthenticated = useSelector(selectIsAuthenticated)
+  const error = useSelector(selectAuthenticationError)
 
   if (isAuthenticated) return <Redirect push to='/' />
 
@@ -45,6 +50,7 @@ export const Login = () => {
         <button type='submit' disabled={!validateForm()}>
           Login
         </button>
+        {error !== null ? <p>{error}</p> : null}
       </form>
     </div>
   )
