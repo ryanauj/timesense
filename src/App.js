@@ -6,7 +6,7 @@ import { Navbar } from './app/Navbar'
 import { Login } from './features/authentication/Login'
 import { Signup } from './features/authentication/Signup'
 import { Dashboard } from './app/Dashboard'
-import Amplify, { Auth } from 'aws-amplify'
+import Amplify from 'aws-amplify'
 
 Amplify.configure({
   Auth: {
@@ -28,7 +28,8 @@ Amplify.configure({
 })
 
 // You can get the current config object
-const currentConfig = Auth.configure()
+// { Auth } from 'aws-amplify'
+// const currentConfig = Auth.configure()
 
 const App = () => {
   return (

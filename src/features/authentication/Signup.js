@@ -1,19 +1,14 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useHistory } from 'react-router-dom'
 import useInput from '../../hooks/useInput'
-import { signIn, signUp } from './authenticationSlice'
+import { signUp } from './authenticationSlice'
 
 export const Signup = () => {
   const dispatch = useDispatch()
-  const [email, emailComponent, setEmail] = useInput('email', '')
-  const [password, passwordComponent, setPassword] = useInput('password', '')
-  const [confirmPassword, confirmPasswordComponent, setConfirmPassword] =
-    useInput('password', '')
-  const [confirmationCode, confirmationCodeComponent, setConfirmationCode] =
-    useInput('text', '')
-  const history = useHistory()
+  const [email, emailComponent] = useInput('email', '')
+  const [password, passwordComponent] = useInput('password', '')
+  const [confirmPassword, confirmPasswordComponent] = useInput('password', '')
   const [newUser, setNewUser] = useState(null)
 
   const validateForm = () =>
@@ -22,9 +17,6 @@ export const Signup = () => {
     password &&
     password.length > 0 &&
     password === confirmPassword
-
-  const validateConfirmationForm = () =>
-    confirmationCode && confirmationCode.length > 0
 
   const handleSubmit = async event => {
     try {
@@ -35,10 +27,6 @@ export const Signup = () => {
     } catch (err) {
       console.log('Failed to signup: ', err)
     }
-  }
-
-  const handleConfirmationSubmit = event => {
-    event.preventDefault()
   }
 
   const signupForm = () => (
@@ -64,17 +52,7 @@ export const Signup = () => {
   )
 
   const confirmationForm = () => (
-    <div>
-      <form onSubmit={handleConfirmationSubmit}>
-        <div>
-          <label>Confirmation Code</label>
-          {confirmationCodeComponent}
-        </div>
-        <button type='submit' disabled={!validateConfirmationForm()}>
-          Verify
-        </button>
-      </form>
-    </div>
+    <p>Please confirm email with verification link.</p>
   )
 
   return (

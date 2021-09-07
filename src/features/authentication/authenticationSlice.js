@@ -4,17 +4,22 @@ import { Auth } from 'aws-amplify'
 
 const initialState = {
   isAuthenticated: false,
-  status: RequestStatus.Idle,
+  authenticationStatus: RequestStatus.Idle,
+  authenticationError: null,
   signUpStatus: RequestStatus.Idle,
-  signOutStatus: RequestStatus.Idle,
-  error: null
+  signUpError: null
 }
 
 export const selectAuthenticationRequestStatus = state =>
-  state.authentication.status
+  state.authentication.authenticationStatus
 
 export const selectIsAuthenticated = state =>
   state.authentication.isAuthenticated
+
+export const selectAuthenticationError = state =>
+  state.authentication.authenticationError
+
+export const selectSignUpError = state => state.authentication.signUpError
 
 export const signIn = createAsyncThunk(
   'authentication/signIn',
@@ -45,15 +50,15 @@ const authenticationSlice = createSlice({
   reducers: {},
   extraReducers: {
     [signIn.pending]: state => {
-      state.status = RequestStatus.Pending
+      state.authenticationStatus = RequestStatus.Pending
     },
     [signIn.fulfilled]: (state, action) => {
-      state.status = RequestStatus.Succeeded
+      state.authenticationStatus = RequestStatus.Succeeded
       state.isAuthenticated = true
     },
     [signIn.rejected]: (state, action) => {
-      state.status = RequestStatus.Failed
-      state.error = action.error.message
+      state.authenticationStatus = RequestStatus.Failed
+      state.authenticationError = action.error.message
       state.isAuthenticated = false
     },
     [signUp.pending]: state => {
@@ -64,18 +69,10 @@ const authenticationSlice = createSlice({
     },
     [signUp.rejected]: (state, action) => {
       state.signUpStatus = RequestStatus.Failed
-      state.error = action.error.message
-    },
-    [signOut.pending]: state => {
-      state.signOutStatus = RequestStatus.Pending
+      state.signUpError = action.error.message
     },
     [signOut.fulfilled]: state => {
-      state.signOutStatus = RequestStatus.Succeeded
       state.isAuthenticated = false
-    },
-    [signOut.rejected]: (state, action) => {
-      state.signOutStatus = RequestStatus.Failed
-      state.error = action.error.message
     }
   }
 })
