@@ -44,6 +44,18 @@ export const signOut = createAsyncThunk('authentication/signOut', () => {
   Auth.signOut()
 })
 
+export const checkAuthStatus = createAsyncThunk(
+  'authentication/checkAuthStatus',
+  async () => {
+    try {
+      const user = await Auth.currentAuthenticatedUser()
+      return user ? true : false
+    } catch {
+      return false
+    }
+  }
+)
+
 const authenticationSlice = createSlice({
   name: 'authentication',
   initialState,
@@ -81,6 +93,9 @@ const authenticationSlice = createSlice({
     [signOut.rejected]: (state, action) => {
       state.signOutStatus = RequestStatus.Failed
       state.signOutError = action.error.message
+    },
+    [checkAuthStatus.fulfilled]: (state, action) => {
+      state.isAuthenticated = action.payload
     }
   }
 })

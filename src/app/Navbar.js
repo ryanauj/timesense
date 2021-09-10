@@ -1,6 +1,8 @@
+import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 import {
+  checkAuthStatus,
   selectIsAuthenticated,
   signOut
 } from '../features/authentication/authenticationSlice'
@@ -9,6 +11,10 @@ export const Navbar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const history = useHistory()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(checkAuthStatus()).unwrap()
+  })
 
   const handleLogout = async () => {
     await dispatch(signOut())

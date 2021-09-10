@@ -1,7 +1,11 @@
+import { unwrapResult } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import useInput from '../../hooks/useInput'
-import { sensedTimeAdded } from '../sensed-times/sensedTimesSlice'
+import {
+  addSensedTime,
+  sensedTimeAdded
+} from '../sensed-times/sensedTimesSlice'
 
 const TimeSensorState = {
   Ready: 'Ready',
@@ -50,7 +54,11 @@ const TimeSensor = () => {
       setTimeSensorState(TimeSensorState.Ready)
       setDisplaySensedTime(false)
       setTimeSensorButtonBackgroundColor('limegreen')
-      dispatch(sensedTimeAdded({ targetTime, actualTime: actualSensedTime }))
+      dispatch(addSensedTime({ targetTime, actualTime: actualSensedTime }))
+        .unwrap()
+        .catch(err => {
+          console.error('Failed to save the sensed time: ', err)
+        })
     }
   }
 
