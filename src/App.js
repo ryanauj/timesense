@@ -2,10 +2,12 @@ import React from 'react'
 
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
+import { Dashboard } from './app/Dashboard'
 import { Navbar } from './app/Navbar'
 import { Login } from './features/authentication/Login'
 import { Signup } from './features/authentication/Signup'
-import { Dashboard } from './app/Dashboard'
+import { SensedTimes } from './features/sensed-times/SensedTimes'
+
 import Amplify from 'aws-amplify'
 
 Amplify.configure({
@@ -39,6 +41,7 @@ const App = () => {
         <Route exact path='/' component={Dashboard} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/signup' component={Signup} />
+        <Route exact path='/sensedTimes' component={SensedTimes} />
       </Switch>
     </Router>
   )

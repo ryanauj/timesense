@@ -43,6 +43,10 @@ export const addSensedTime = createAsyncThunk(
 const sensedTimesSlice = createSlice({
   name: 'sensedTimes',
   initialState,
+  reducers: {
+    sensedTimeAdded: sensedTimesAdapter.addOne,
+    sensedTimesCleared: sensedTimesAdapter.removeAll
+  },
   extraReducers: {
     [fetchSensedTimes.pending]: (state, action) => {
       state.status = RequestStatus.Pending
@@ -59,11 +63,13 @@ const sensedTimesSlice = createSlice({
   }
 })
 
-export const { sensedTimeAdded } = sensedTimesSlice.actions
+export const { sensedTimeAdded, sensedTimesCleared } = sensedTimesSlice.actions
 
 export const {
   selectById: selectSensedTimeById,
   selectIds: selectSensedTimeIds
 } = sensedTimesAdapter.getSelectors(state => state.sensedTimes)
+
+export const selectSensedTimesStatus = state => state.sensedTimes.status
 
 export default sensedTimesSlice.reducer

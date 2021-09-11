@@ -8,7 +8,7 @@ import {
   selectSensedTimesStatus
 } from './sensedTimesSlice'
 
-export const SensedTimes = () => {
+export const SensedTimesSnippet = () => {
   const dispatch = useDispatch()
   const sensedTimesStatus = useSelector(selectSensedTimesStatus)
   const sensedTimeIds = useSelector(selectSensedTimeIds)
@@ -19,8 +19,10 @@ export const SensedTimes = () => {
     }
   }, [sensedTimesStatus, dispatch])
 
-  const pastSensedTimes = sensedTimeIds.map(sensedTimeId => (
-    <SensedTime key={sensedTimeId} sensedTimeId={sensedTimeId}></SensedTime>
-  ))
+  const pastSensedTimes = sensedTimeIds
+    .slice(0, 5)
+    .map(sensedTimeId => (
+      <SensedTime key={sensedTimeId} sensedTimeId={sensedTimeId}></SensedTime>
+    ))
   return <ol id='pastTimesList'>{pastSensedTimes}</ol>
 }

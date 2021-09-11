@@ -6,6 +6,7 @@ import {
   selectIsAuthenticated,
   signOut
 } from '../features/authentication/authenticationSlice'
+import { sensedTimesCleared } from '../features/sensed-times/sensedTimesSlice'
 
 export const Navbar = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
@@ -18,6 +19,7 @@ export const Navbar = () => {
 
   const handleLogout = async () => {
     await dispatch(signOut())
+    await dispatch(sensedTimesCleared())
     history.push('/')
   }
 
@@ -38,6 +40,7 @@ export const Navbar = () => {
         <div className='navContent'>
           <div className='navLinks'>
             <Link to='/'>| Home |</Link>
+            <Link to='/sensedTimes'>| Sensed Times |</Link>
             {authenticationLinks}
           </div>
         </div>
