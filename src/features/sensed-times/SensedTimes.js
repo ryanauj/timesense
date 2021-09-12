@@ -14,10 +14,13 @@ export const SensedTimes = () => {
   const sensedTimeIds = useSelector(selectSensedTimeIds)
 
   useEffect(() => {
-    if (sensedTimesStatus === RequestStatus.Idle) {
-      dispatch(fetchSensedTimes())
+    if (
+      sensedTimesStatus === RequestStatus.Idle ||
+      sensedTimesStatus === RequestStatus.Failed
+    ) {
+      dispatch(fetchSensedTimes()).unwrap()
     }
-  }, [sensedTimesStatus, dispatch])
+  })
 
   const pastSensedTimes = sensedTimeIds.map(sensedTimeId => (
     <SensedTime key={sensedTimeId} sensedTimeId={sensedTimeId}></SensedTime>

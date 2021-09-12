@@ -14,8 +14,11 @@ export const SensedTimesSnippet = () => {
   const sensedTimeIds = useSelector(selectSensedTimeIds)
 
   useEffect(() => {
-    if (sensedTimesStatus === RequestStatus.Idle) {
-      dispatch(fetchSensedTimes())
+    if (
+      sensedTimesStatus === RequestStatus.Idle ||
+      sensedTimesStatus === RequestStatus.Failed
+    ) {
+      dispatch(fetchSensedTimes()).unwrap()
     }
   }, [sensedTimesStatus, dispatch])
 

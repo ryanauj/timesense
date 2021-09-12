@@ -40,8 +40,8 @@ export const signUp = createAsyncThunk(
   }
 )
 
-export const signOut = createAsyncThunk('authentication/signOut', () => {
-  Auth.signOut()
+export const signOut = createAsyncThunk('authentication/signOut', async () => {
+  await Auth.signOut()
 })
 
 export const checkAuthStatus = createAsyncThunk(

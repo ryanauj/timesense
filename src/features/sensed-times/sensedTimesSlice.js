@@ -45,7 +45,10 @@ const sensedTimesSlice = createSlice({
   initialState,
   reducers: {
     sensedTimeAdded: sensedTimesAdapter.addOne,
-    sensedTimesCleared: sensedTimesAdapter.removeAll
+    sensedTimesCleared: state => {
+      sensedTimesAdapter.removeAll(state)
+      state.status = RequestStatus.Idle
+    }
   },
   extraReducers: {
     [fetchSensedTimes.pending]: (state, action) => {
