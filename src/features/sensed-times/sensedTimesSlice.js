@@ -29,7 +29,7 @@ export const fetchSensedTimes = createAsyncThunk(
 )
 
 export const addSensedTime = createAsyncThunk(
-  'sensedTimes/addSensedTimes',
+  'sensedTimes/addSensedTime',
   async sensedTime => {
     console.log('sensedTime', sensedTime)
     const completeSensedTime = await API.post(TimeSenseApi, SensedTimesPath, {
@@ -44,7 +44,6 @@ const sensedTimesSlice = createSlice({
   name: 'sensedTimes',
   initialState,
   reducers: {
-    sensedTimeAdded: sensedTimesAdapter.addOne,
     sensedTimesCleared: state => {
       sensedTimesAdapter.removeAll(state)
       state.status = RequestStatus.Idle
@@ -66,7 +65,7 @@ const sensedTimesSlice = createSlice({
   }
 })
 
-export const { sensedTimeAdded, sensedTimesCleared } = sensedTimesSlice.actions
+export const { sensedTimesCleared } = sensedTimesSlice.actions
 
 export const {
   selectById: selectSensedTimeById,

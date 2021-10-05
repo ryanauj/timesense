@@ -1,11 +1,8 @@
-import { unwrapResult } from '@reduxjs/toolkit'
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import useInput from '../../hooks/useInput'
-import {
-  addSensedTime,
-  sensedTimeAdded
-} from '../sensed-times/sensedTimesSlice'
+import { sensedTimeAdded } from '../metrics/metricsSlice'
+import { addSensedTime } from '../sensed-times/sensedTimesSlice'
 
 const TimeSensorState = {
   Ready: 'Ready',
@@ -30,7 +27,7 @@ const TimeSensor = () => {
   const [displaySensedTime, setDisplaySensedTime] = useState(false)
   const [targetSensedTime, targetSensedTimeInput] = useInput({
     type: 'number',
-    value: '0'
+    initialValue: '0'
   })
 
   console.log('Function Running')
@@ -59,6 +56,7 @@ const TimeSensor = () => {
         .catch(err => {
           console.error('Failed to save the sensed time: ', err)
         })
+      dispatch(sensedTimeAdded())
     }
   }
 

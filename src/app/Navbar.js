@@ -41,6 +41,7 @@ export const Navbar = () => {
           <div className='navLinks'>
             <Link to='/'>| Home |</Link>
             <Link to='/sensedTimes'>| Sensed Times |</Link>
+            <Link to='/metrics'>| Metrics |</Link>
             {authenticationLinks}
           </div>
         </div>
