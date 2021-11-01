@@ -24,28 +24,35 @@ export const Navbar = () => {
   }
 
   const authenticationLinks = isAuthenticated ? (
-    <button onClick={handleLogout}>| Logout |</button>
+    <li className='right'>
+      <button onClick={handleLogout}>Logout</button>
+    </li>
   ) : (
     <>
-      <Link to='/signup'>| Signup |</Link>
-      <Link to='/login'>| Login |</Link>
+      <li className='right'>
+        <Link to='/signup'>Signup</Link>
+      </li>
+      <li className='right'>
+        <Link to='/login'>Login</Link>
+      </li>
     </>
   )
 
   return (
-    <nav>
-      <section>
-        <h1>TimeSense</h1>
-
-        <div className='navContent'>
-          <div className='navLinks'>
-            <Link to='/'>| Home |</Link>
-            <Link to='/sensedTimes'>| Sensed Times |</Link>
-            <Link to='/metrics'>| Metrics |</Link>
-            {authenticationLinks}
-          </div>
-        </div>
-      </section>
-    </nav>
+    <ul>
+      <li id='app_name'>
+        <Link to='/'>TimeSense</Link>
+      </li>
+      <li>
+        <Link to='/'>Home</Link>
+      </li>
+      <li>
+        <Link to='/sensedTimes'>Sensed Times</Link>
+      </li>
+      <li>
+        <Link to='/metrics'>Metrics</Link>
+      </li>
+      {authenticationLinks}
+    </ul>
   )
 }
