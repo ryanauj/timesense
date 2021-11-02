@@ -1,4 +1,6 @@
-ul {
+/* NavBar */
+
+ul.navbar {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -6,12 +8,12 @@ ul {
   background-color: #333;
 }
 
-li {
+ul.navbar li {
   float: left;
   border-right: 1px solid #bbb;
 }
 
-li a {
+ul.navbar li a {
   text-decoration: none;
   display: block;
   color: white;
@@ -19,11 +21,11 @@ li a {
   padding: 14px 16px;
 }
 
-li a:hover {
+ul.navbar li:not(#app_name) a:hover {
   background-color: #111;
 }
 
-.right {
+ul.navbar .right {
   float: right;
   border-left: 1px solid #bbb;
   border-right: none;
@@ -31,4 +33,56 @@ li a:hover {
 
 #app_name {
   background-color: #2692eb;
+}
+
+/* Forms */
+form {
+  display: grid;
+  padding: 1em;
+  margin: 2rem auto 0 auto;
+  max-width: 600px;
+}
+
+form label {
+  padding: 0.5em 0.5em 0.5em 0;
+}
+
+form button {
+  padding: 0.7em 0 0.7em 0;
+  width: 100%;
+  border: 0;
+}
+
+form input[type='email'],
+input[type='password'] {
+  padding: 12px 20px;
+  margin: 8px;
+  box-sizing: border-box;
+  border: 3px solid #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  outline: none;
+  margin: 0.7em;
+}
+
+input[type='email']:focus,
+input[type='password']:focus {
+  border: 3px solid #555;
+}
+
+@media (min-width: 400px) {
+  form {
+    grid-template-columns: 200px 1fr;
+    grid-gap: 16px;
+  }
+
+  label {
+    text-align: right;
+    grid-column: 1/2;
+  }
+
+  input,
+  button {
+    grid-column: 2/3;
+  }
 }

@@ -10,8 +10,12 @@ import {
 
 export const Login = () => {
   const dispatch = useDispatch()
-  const [email, emailComponent, setEmail] = useInput('email', '')
-  const [password, passwordComponent, setPassword] = useInput('password', '')
+  const [email, emailComponent, setEmail] = useInput('email', '', 'login_email')
+  const [password, passwordComponent, setPassword] = useInput(
+    'password',
+    '',
+    'login_password'
+  )
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const error = useSelector(selectAuthenticationError)
 
@@ -39,14 +43,10 @@ export const Login = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email</label>
-          {emailComponent}
-        </div>
-        <div>
-          <label>Password</label>
-          {passwordComponent}
-        </div>
+        <label for='login_email'>Email</label>
+        {emailComponent}
+        <label>Password</label>
+        {passwordComponent}
         <button type='submit' disabled={!validateForm()}>
           Login
         </button>

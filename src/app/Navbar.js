@@ -39,7 +39,7 @@ export const Navbar = () => {
   )
 
   return (
-    <ul>
+    <ul className='navbar'>
       <li id='app_name'>
         <Link to='/'>TimeSense</Link>
       </li>
