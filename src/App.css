@@ -13,12 +13,19 @@ ul.navbar li {
   border-right: 1px solid #bbb;
 }
 
-ul.navbar li a {
+ul.navbar li a,
+button {
   text-decoration: none;
   display: block;
   color: white;
   text-align: center;
   padding: 14px 16px;
+}
+
+ul.navbar li button {
+  background-color: inherit;
+  border: none;
+  font: inherit;
 }
 
 ul.navbar li:not(#app_name) a:hover {
