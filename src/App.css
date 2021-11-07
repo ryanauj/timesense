@@ -8,12 +8,16 @@
 
 .grid {
   display: grid;
+  gap: 10px;
 }
 
 .center-horizontally {
-  display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+.center-align {
+  text-align: center;
 }
 
 /* NavBar */
@@ -101,13 +105,13 @@ input[type='password']:focus {
     grid-gap: 16px;
   }
 
-  label {
+  form label {
     text-align: right;
     grid-column: 1/2;
   }
 
-  input,
-  button {
+  form input,
+  form button {
     grid-column: 2/3;
   }
 }

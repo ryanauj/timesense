@@ -72,7 +72,9 @@ const TimeSensor = () => {
         >
           {UpdatedTimeSensorButtonText[timeSensorState]}
         </button>
-        {displaySensedTime && <p>{actualSensedTime}</p>}
+        {displaySensedTime && (
+          <p className='center-align'>{actualSensedTime}</p>
+        )}
       </div>
     </div>
   )
