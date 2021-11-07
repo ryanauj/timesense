@@ -10,12 +10,16 @@ import {
 
 export const Login = () => {
   const dispatch = useDispatch()
-  const [email, emailComponent, setEmail] = useInput('email', '', 'login_email')
-  const [password, passwordComponent, setPassword] = useInput(
-    'password',
-    '',
-    'login_password'
-  )
+  const [email, emailComponent, setEmail] = useInput({
+    type: 'email',
+    initialValue: '',
+    id: 'login_email'
+  })
+  const [password, passwordComponent, setPassword] = useInput({
+    type: 'password',
+    initialValue: '',
+    id: 'login_password'
+  })
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const error = useSelector(selectAuthenticationError)
 

@@ -27,7 +27,8 @@ const TimeSensor = () => {
   const [displaySensedTime, setDisplaySensedTime] = useState(false)
   const [targetSensedTime, targetSensedTimeInput] = useInput({
     type: 'number',
-    initialValue: '0'
+    initialValue: '0',
+    className: 'center-horizontally'
   })
 
   console.log('Function Running')
@@ -61,16 +62,19 @@ const TimeSensor = () => {
   }
 
   return (
-    <>
-      {targetSensedTimeInput}
-      <button
-        style={{ backgroundColor: timeSensorButtonBackgroundColor }}
-        onClick={() => timeSensorActions[timeSensorState]()}
-      >
-        {UpdatedTimeSensorButtonText[timeSensorState]}
-      </button>
-      {displaySensedTime && <p>{actualSensedTime}</p>}
-    </>
+    <div className='center'>
+      <div className='grid'>
+        {targetSensedTimeInput}
+        <button
+          className='center-horizontally'
+          style={{ backgroundColor: timeSensorButtonBackgroundColor }}
+          onClick={() => timeSensorActions[timeSensorState]()}
+        >
+          {UpdatedTimeSensorButtonText[timeSensorState]}
+        </button>
+        {displaySensedTime && <p>{actualSensedTime}</p>}
+      </div>
+    </div>
   )
 }
 
