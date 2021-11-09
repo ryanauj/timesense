@@ -24,8 +24,12 @@ export const SensedTimesSnippet = () => {
 
   const pastSensedTimes = sensedTimeIds
     .slice(0, 5)
-    .map(sensedTimeId => (
-      <SensedTime key={sensedTimeId} sensedTimeId={sensedTimeId}></SensedTime>
+    .map((sensedTimeId, index) => (
+      <SensedTime
+        key={sensedTimeId}
+        index={index}
+        sensedTimeId={sensedTimeId}
+      ></SensedTime>
     ))
-  return <ol id='pastTimesList'>{pastSensedTimes}</ol>
+  return <ol className='past-times'>{pastSensedTimes}</ol>
 }

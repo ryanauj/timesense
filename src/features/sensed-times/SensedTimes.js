@@ -22,8 +22,12 @@ export const SensedTimes = () => {
     }
   })
 
-  const pastSensedTimes = sensedTimeIds.map(sensedTimeId => (
-    <SensedTime key={sensedTimeId} sensedTimeId={sensedTimeId}></SensedTime>
+  const pastSensedTimes = sensedTimeIds.map((sensedTimeId, index) => (
+    <SensedTime
+      key={sensedTimeId}
+      index={index}
+      sensedTimeId={sensedTimeId}
+    ></SensedTime>
   ))
-  return <ol id='pastTimesList'>{pastSensedTimes}</ol>
+  return <ol className='past-times'>{pastSensedTimes}</ol>
 }

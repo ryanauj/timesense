@@ -82,7 +82,8 @@ form button {
   border: 0;
 }
 
-form input[type='email'],
+input[type='number'],
+input[type='email'],
 input[type='password'] {
   padding: 12px 20px;
   margin: 8px;
@@ -94,6 +95,7 @@ input[type='password'] {
   margin: 0.7em;
 }
 
+input[type='number']:focus,
 input[type='email']:focus,
 input[type='password']:focus {
   border: 3px solid #555;
@@ -114,4 +116,24 @@ input[type='password']:focus {
   form button {
     grid-column: 2/3;
   }
+}
+
+/* Past Times */
+.past-times {
+  display: grid;
+  gap: 10px;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(5, 150px);
+  grid-auto-rows: 150px;
+}
+
+.past-times li {
+  padding-left: 10px;
+  list-style-type: none;
+  background-color: lightcoral;
+}
+
+.past-times li p:first-child {
+  margin-top: 10px;
 }
