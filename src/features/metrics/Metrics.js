@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RequestStatus } from '../../app/RequestStatus'
-import { AverageSensedTime } from './AverageSensedTime'
+import { Metric } from './Metric'
 import {
   selectMetricsStatus,
   fetchMetrics,
@@ -25,15 +25,7 @@ export const Metrics = () => {
   })
 
   const averages = Object.keys(metrics).map(key => {
-    const { targetTime, total, average } = metrics[key]
-    return (
-      <AverageSensedTime
-        key={key}
-        targetTime={targetTime}
-        actualTime={average}
-        attempts={total}
-      ></AverageSensedTime>
-    )
+    return <Metric key={key} {...metrics[key]}></Metric>
   })
 
   return <ol>{averages}</ol>

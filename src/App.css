@@ -137,3 +137,24 @@ input[type='password']:focus {
 .past-times li p:first-child {
   margin-top: 10px;
 }
+
+/* Metrics */
+.metric {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  margin: 10px;
+}
+
+.metric .stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 10px;
+  row-gap: 10px;
+  background-color: lightcyan;
+  padding: 10px;
+}
+
+.metric .stats .stat {
+  background-color: lightgray;
+  padding: 10px;
+}
