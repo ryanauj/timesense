@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RequestStatus } from '../../app/RequestStatus'
-import { SensedTime } from './SensedTime'
+import { SensedTimeById } from './SensedTimeById'
 import {
   fetchSensedTimes,
   selectSensedTimeIds,
@@ -25,11 +25,11 @@ export const SensedTimesSnippet = () => {
   const pastSensedTimes = sensedTimeIds
     .slice(0, 5)
     .map((sensedTimeId, index) => (
-      <SensedTime
+      <SensedTimeById
         key={sensedTimeId}
         index={index}
         sensedTimeId={sensedTimeId}
-      ></SensedTime>
+      ></SensedTimeById>
     ))
-  return <ol className='past-times'>{pastSensedTimes}</ol>
+  return <ol className='centered-past-times'>{pastSensedTimes}</ol>
 }
