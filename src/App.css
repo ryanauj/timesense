@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Roboto';
+  color: #707070;
 }
 
 .center {
@@ -41,21 +42,24 @@ ul.navbar {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  /* background-color: #333; */
 }
 
 ul.navbar li {
   float: left;
-  border-right: 1px solid #bbb;
+  /* border-right: 1px solid #bbb; */
 }
 
 ul.navbar li a,
-button {
-  text-decoration: none;
+ul.navbar li button {
   display: block;
-  color: white;
+  color: #707070;
   text-align: center;
   padding: 14px 16px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #6373c7;
+  text-underline-offset: 5px;
 }
 
 ul.navbar li button {
@@ -64,18 +68,18 @@ ul.navbar li button {
   font: inherit;
 }
 
-ul.navbar li:not(#app_name) a:hover {
-  background-color: #111;
+ul.navbar button:hover {
+  cursor: pointer;
 }
 
 ul.navbar .right {
   float: right;
-  border-left: 1px solid #bbb;
+  /* border-left: 1px solid #bbb; */
   border-right: none;
 }
 
-#app_name {
-  background-color: #2692eb;
+#logout {
+  text-decoration-color: #d65454;
 }
 
 /* Forms */
