@@ -23,6 +23,32 @@ export const Navbar = () => {
     history.push('/')
   }
 
+  const navLinks = isAuthenticated ? (
+    <>
+      <li>
+        <Link to='/'>Home</Link>
+      </li>
+      <li>
+        <Link to='/sensor'>Sensor</Link>
+      </li>
+      <li>
+        <Link to='/sensedTimes'>Sensed Times</Link>
+      </li>
+      <li>
+        <Link to='/metrics'>Metrics</Link>
+      </li>
+    </>
+  ) : (
+    <>
+      <li>
+        <Link to='/'>Home</Link>
+      </li>
+      <li>
+        <Link to='/sensor'>Sensor</Link>
+      </li>
+    </>
+  )
+
   const authenticationLinks = isAuthenticated ? (
     <li className='right'>
       <button onClick={handleLogout}>Logout</button>
@@ -40,18 +66,7 @@ export const Navbar = () => {
 
   return (
     <ul className='navbar'>
-      <li id='app_name'>
-        <Link to='/'>TimeSense</Link>
-      </li>
-      <li>
-        <Link to='/'>Home</Link>
-      </li>
-      <li>
-        <Link to='/sensedTimes'>Sensed Times</Link>
-      </li>
-      <li>
-        <Link to='/metrics'>Metrics</Link>
-      </li>
+      {navLinks}
       {authenticationLinks}
     </ul>
   )

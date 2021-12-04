@@ -1,5 +1,9 @@
 /* General */
 
+body {
+  font-family: 'Roboto';
+}
+
 .center {
   display: flex;
   justify-content: center;
@@ -18,6 +22,16 @@
 
 .center-align {
   text-align: center;
+}
+
+/* Images */
+
+.app-logo {
+  max-width: 200px;
+}
+
+.app-logo path {
+  fill: #69d675;
 }
 
 /* NavBar */

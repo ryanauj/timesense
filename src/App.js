@@ -2,6 +2,7 @@ import React from 'react'
 import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 
+import { Hero } from './app/Hero'
 import { Dashboard } from './app/Dashboard'
 import { Navbar } from './app/Navbar'
 import { Login } from './features/authentication/Login'
@@ -39,7 +40,8 @@ const App = () => {
     <Router>
       <Navbar></Navbar>
       <Switch>
-        <Route exact path='/' component={Dashboard} />
+        <Route exact path='/' component={Hero} />
+        <Route exact path='/sensor' component={Dashboard} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/signup' component={Signup} />
         <Route exact path='/metrics' component={Metrics} />
