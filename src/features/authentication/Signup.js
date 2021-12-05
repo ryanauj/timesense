@@ -1,14 +1,28 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { ERROR } from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
 import { selectSignUpError, signUp } from './authenticationSlice'
+import { Tile } from './Tile'
 
 export const Signup = () => {
   const dispatch = useDispatch()
-  const [email, emailComponent] = useInput('email', '')
-  const [password, passwordComponent] = useInput('password', '')
-  const [confirmPassword, confirmPasswordComponent] = useInput('password', '')
+  const [email, emailComponent] = useInput({
+    type: 'email',
+    initialValue: '',
+    id: 'signup_email'
+  })
+  const [password, passwordComponent] = useInput({
+    type: 'password',
+    initialValue: '',
+    id: 'signup_password'
+  })
+  const [confirmPassword, confirmPasswordComponent] = useInput({
+    type: 'password',
+    initialValue: '',
+    id: 'signup_confirm_password'
+  })
   const [newUser, setNewUser] = useState(null)
   const error = useSelector(selectSignUpError)
 
@@ -31,8 +45,9 @@ export const Signup = () => {
   }
 
   const signupForm = () => (
-    <div>
+    <Tile>
       <form onSubmit={handleSubmit}>
+        <h2>Sign up</h2>
         <div>
           <label>Email</label>
           {emailComponent}
@@ -45,12 +60,12 @@ export const Signup = () => {
           <label>Confirm Password</label>
           {confirmPasswordComponent}
         </div>
+        {error && <div style={{color: ERROR }}>{error}</div>}
         <button type='submit' disabled={!validateForm()}>
-          Signup
+          Sign up
         </button>
-        {error !== null ? <p>{error}</p> : null}
       </form>
-    </div>
+    </Tile>
   )
 
   const confirmationForm = () => (
