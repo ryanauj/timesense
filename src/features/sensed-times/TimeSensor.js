@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
-import { PRIMARY, VERY_DARK_BLUE, VERY_LIGHT_BLUE } from '../../constants/cssVars'
+import {
+  PRIMARY,
+  VERY_DARK_BLUE,
+  VERY_LIGHT_BLUE
+} from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
 import { sensedTimeAdded } from '../metrics/metricsSlice'
 import { addSensedTime } from '../sensed-times/sensedTimesSlice'
@@ -101,7 +105,7 @@ const TimeSensor = () => {
   }
 
   return (
-    <div className="center sensor">
+    <div className='center sensor'>
       <Wrapper>
         <label>
           <span>Target Time (Seconds): </span>
@@ -117,7 +121,7 @@ const TimeSensor = () => {
         {displaySensedTime && (
           <p className='center-align'>Actual Time: {actualSensedTime}</p>
         )}
-        <img src={TimeSensorIcon[timeSensorState]} />
+        <img src={TimeSensorIcon[timeSensorState]} alt='time-sensor-icon' />
       </Wrapper>
     </div>
   )
