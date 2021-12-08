@@ -1,8 +1,17 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
+import {
+  PRIMARY,
+  VERY_DARK_BLUE,
+  VERY_LIGHT_BLUE
+} from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
 import { sensedTimeAdded } from '../metrics/metricsSlice'
 import { addSensedTime } from '../sensed-times/sensedTimesSlice'
+import startIcon from '../../assets/startIcon.svg'
+import resetIcon from '../../assets/resetIcon.svg'
+import inProgressIcon from '../../assets/inProgressIcon.svg'
 
 const TimeSensorState = {
   Ready: 'Ready',
@@ -15,6 +24,39 @@ const UpdatedTimeSensorButtonText = {
   [TimeSensorState.Started]: 'Stop',
   [TimeSensorState.Stopped]: 'Reset'
 }
+
+const TimeSensorIcon = {
+  [TimeSensorState.Ready]: startIcon,
+  [TimeSensorState.Started]: inProgressIcon,
+  [TimeSensorState.Stopped]: resetIcon
+}
+
+const Wrapper = styled.div`
+  width: min(400px, 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  button {
+    padding: 0.7em 0 0.7em 0;
+    width: 100%;
+    border: 0;
+    margin-top: 1em;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: ${VERY_DARK_BLUE};
+    background-color: ${PRIMARY};
+  }
+  > img {
+    width: 140px;
+    height: 220px;
+    path {
+      fill: ${VERY_LIGHT_BLUE};
+    }
+  }
+  > p {
+    font-weight: 600;
+  }
+`
 
 const TimeSensor = () => {
   const dispatch = useDispatch()
@@ -63,14 +105,14 @@ const TimeSensor = () => {
   }
 
   return (
-    <div className='center'>
-      <div className='grid'>
+    <div className='center sensor'>
+      <Wrapper>
         <label>
           <span>Target Time (Seconds): </span>
           {targetSensedTimeInput}
         </label>
         <button
-          className='center-horizontally'
+          className='center-horizontally cool-button'
           style={{ backgroundColor: timeSensorButtonBackgroundColor }}
           onClick={() => timeSensorActions[timeSensorState]()}
         >
@@ -79,7 +121,8 @@ const TimeSensor = () => {
         {displaySensedTime && (
           <p className='center-align'>Actual Time: {actualSensedTime}</p>
         )}
-      </div>
+        <img src={TimeSensorIcon[timeSensorState]} alt='time-sensor-icon' />
+      </Wrapper>
     </div>
   )
 }

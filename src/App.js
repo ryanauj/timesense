@@ -1,7 +1,9 @@
 import React from 'react'
 import './App.css'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import styled from 'styled-components'
 
+import { Hero } from './app/Hero'
 import { Dashboard } from './app/Dashboard'
 import { Navbar } from './app/Navbar'
 import { Login } from './features/authentication/Login'
@@ -10,6 +12,7 @@ import { SensedTimes } from './features/sensed-times/SensedTimes'
 
 import Amplify from 'aws-amplify'
 import { Metrics } from './features/metrics/Metrics'
+import { HEADER_HEIGHT } from './constants/cssVars'
 
 Amplify.configure({
   Auth: {
@@ -34,17 +37,30 @@ Amplify.configure({
 // { Auth } from 'aws-amplify'
 // const currentConfig = Auth.configure()
 
+// Center page contents and add offset for header
+const Wrapper = styled.div`
+  padding: 0px 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  min-height: calc(100vh - ${HEADER_HEIGHT}px);
+`
+
 const App = () => {
   return (
     <Router>
       <Navbar></Navbar>
-      <Switch>
-        <Route exact path='/' component={Dashboard} />
-        <Route exact path='/login' component={Login} />
-        <Route exact path='/signup' component={Signup} />
-        <Route exact path='/metrics' component={Metrics} />
-        <Route exact path='/sensedTimes' component={SensedTimes} />
-      </Switch>
+      <Wrapper>
+        <Switch>
+          <Route exact path='/' component={Hero} />
+          <Route exact path='/sensor' component={Dashboard} />
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/signup' component={Signup} />
+          <Route exact path='/metrics' component={Metrics} />
+          <Route exact path='/sensedTimes' component={SensedTimes} />
+        </Switch>
+      </Wrapper>
     </Router>
   )
 }

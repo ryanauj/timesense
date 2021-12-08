@@ -1,9 +1,23 @@
 /* General */
 
+body {
+  font-family: 'Titillium Web', sans-serif;
+  color: #F6FCF7;
+  background-color: #152835;
+  background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.3));
+  min-height: 100vh;
+}
+
+input, select, textarea, button {
+  font-family: 'Titillium Web', sans-serif;
+  font-size: 1em;
+}
+
 .center {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 
 .grid {
@@ -20,6 +34,16 @@
   text-align: center;
 }
 
+/* Images */
+
+.app-logo {
+  max-width: 200px;
+}
+
+.app-logo path {
+  fill: #69d675;
+}
+
 /* NavBar */
 
 ul.navbar {
@@ -27,21 +51,30 @@ ul.navbar {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #333;
+  /* background-color: #333; */
 }
 
 ul.navbar li {
   float: left;
-  border-right: 1px solid #bbb;
+  /* border-right: 1px solid #bbb; */
 }
 
 ul.navbar li a,
-button {
-  text-decoration: none;
+ul.navbar li button {
   display: block;
-  color: white;
+  color: #F6FCF7;
   text-align: center;
   padding: 14px 16px;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-decoration-color: #6373c7;
+  text-underline-offset: 5px;
+  transition: text-decoration-color 0.2s ease;
+}
+
+ul.navbar li a:hover,
+ul.navbar li button:hover {
+  text-decoration-color: #69d675;
 }
 
 ul.navbar li button {
@@ -50,25 +83,24 @@ ul.navbar li button {
   font: inherit;
 }
 
-ul.navbar li:not(#app_name) a:hover {
-  background-color: #111;
+ul.navbar button:hover {
+  cursor: pointer;
 }
 
 ul.navbar .right {
   float: right;
-  border-left: 1px solid #bbb;
+  /* border-left: 1px solid #bbb; */
   border-right: none;
 }
 
-#app_name {
-  background-color: #2692eb;
+#logout {
+  text-decoration-color: #d65454;
 }
 
 /* Forms */
 form {
   display: grid;
   padding: 1em;
-  margin: 2rem auto 0 auto;
   max-width: 600px;
 }
 
@@ -80,19 +112,35 @@ form button {
   padding: 0.7em 0 0.7em 0;
   width: 100%;
   border: 0;
+  margin-top: 1em;
+  font-size: 1.1em;
+  font-weight: 600;
+  color: #152835;
+  background-color: #69d675;
+  transition: background-color 0.2s ease;
+}
+
+form button:hover {
+  background-color: #57E187;
+}
+
+form h2 {
+  margin-top: 0px;
+  text-align: center;
 }
 
 input[type='number'],
 input[type='email'],
 input[type='password'] {
   padding: 12px 20px;
-  margin: 8px;
+  margin-top: 0.2em;
+  margin-bottom: 0.7em;
   box-sizing: border-box;
   border: 3px solid #ccc;
   -webkit-transition: 0.4s;
   transition: 0.4s;
   outline: none;
-  margin: 0.7em;
+  width: 100%;
 }
 
 input[type='number']:focus,
@@ -101,8 +149,12 @@ input[type='password']:focus {
   border: 3px solid #555;
 }
 
+.sensor label {
+  width: 100%;
+}
+
 @media (min-width: 400px) {
-  form {
+  /* form {
     grid-template-columns: 200px 1fr;
     grid-gap: 16px;
   }
@@ -115,7 +167,7 @@ input[type='password']:focus {
   form input,
   form button {
     grid-column: 2/3;
-  }
+  } */
 }
 
 /* Past Times */

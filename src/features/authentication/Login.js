@@ -1,12 +1,14 @@
 import { unwrapResult } from '@reduxjs/toolkit'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
+import { ERROR } from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
 import {
   selectAuthenticationError,
   selectIsAuthenticated,
   signIn
 } from './authenticationSlice'
+import { Tile } from './Tile'
 
 export const Login = () => {
   const dispatch = useDispatch()
@@ -45,17 +47,18 @@ export const Login = () => {
   }
 
   return (
-    <div>
+    <Tile>
       <form onSubmit={handleSubmit}>
+        <h2>Log in</h2>
         <label for='login_email'>Email</label>
         {emailComponent}
         <label>Password</label>
         {passwordComponent}
+        {error && <div style={{color: ERROR }}>{error}</div>}
         <button type='submit' disabled={!validateForm()}>
-          Login
+          Log in
         </button>
-        {error !== null ? <p>{error}</p> : null}
       </form>
-    </div>
+    </Tile>
   )
 }
