@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RequestStatus } from '../../app/RequestStatus'
-import { SensedTimeById } from './SensedTimeById'
+import { SensedTimeByTargetTimeAndId } from './SensedTimeByTargetTimeAndId'
 import {
   fetchSensedTimes,
-  selectSensedTimeIds,
+  selectSensedTimeIdsByTargetTime,
   selectSensedTimesStatus
 } from './sensedTimesSlice'
 
 export const SensedTimes = () => {
   const dispatch = useDispatch()
   const sensedTimesStatus = useSelector(selectSensedTimesStatus)
-  const sensedTimeIds = useSelector(selectSensedTimeIds)
+  const sensedTimeIdsByTargetTime = useSelector(selectSensedTimeIdsByTargetTime)
 
   useEffect(() => {
     if (
@@ -22,12 +22,28 @@ export const SensedTimes = () => {
     }
   })
 
-  const pastSensedTimes = sensedTimeIds.map((sensedTimeId, index) => (
-    <SensedTimeById
-      key={sensedTimeId}
-      index={index}
-      sensedTimeId={sensedTimeId}
-    ></SensedTimeById>
-  ))
+  console.log(sensedTimeIdsByTargetTime)
+
+  const pastSensedTimes = Object.keys(sensedTimeIdsByTargetTime).map(
+    targetTime => {
+      const sensedTimeIds = sensedTimeIdsByTargetTime[targetTime]
+      console.log(sensedTimeIds)
+      return (
+        <div>
+          <h4>Target Time: {targetTime}</h4>
+          {sensedTimeIds.map(sensedTimeId => {
+            console.log(sensedTimeId)
+            return (
+              <SensedTimeByTargetTimeAndId
+                key={sensedTimeId}
+                targetTime={targetTime}
+                sensedTimeId={sensedTimeId}
+              ></SensedTimeByTargetTimeAndId>
+            )
+          })}
+        </div>
+      )
+    }
+  )
   return <ol className='centered-past-times'>{pastSensedTimes}</ol>
 }

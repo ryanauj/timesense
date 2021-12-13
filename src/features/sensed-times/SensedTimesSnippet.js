@@ -1,17 +1,17 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RequestStatus } from '../../app/RequestStatus'
-import { SensedTimeById } from './SensedTimeById'
+import { SensedTimeByTargetTimeAndId } from './SensedTimeByTargetTimeAndId'
 import {
   fetchSensedTimes,
-  selectSensedTimeIds,
+  selectSensedTimeIdsByTargetTime,
   selectSensedTimesStatus
 } from './sensedTimesSlice'
 
 export const SensedTimesSnippet = () => {
   const dispatch = useDispatch()
   const sensedTimesStatus = useSelector(selectSensedTimesStatus)
-  const sensedTimeIds = useSelector(selectSensedTimeIds)
+  const sensedTimeIdsByTargetTime = useSelector(selectSensedTimeIdsByTargetTime)
 
   useEffect(() => {
     if (
@@ -22,14 +22,13 @@ export const SensedTimesSnippet = () => {
     }
   }, [sensedTimesStatus, dispatch])
 
-  const pastSensedTimes = sensedTimeIds
+  const pastSensedTimes = sensedTimeIdsByTargetTime
     .slice(0, 5)
-    .map((sensedTimeId, index) => (
-      <SensedTimeById
+    .map(sensedTimeId => (
+      <SensedTimeByTargetTimeAndId
         key={sensedTimeId}
-        index={index}
         sensedTimeId={sensedTimeId}
-      ></SensedTimeById>
+      ></SensedTimeByTargetTimeAndId>
     ))
   return <ol className='centered-past-times'>{pastSensedTimes}</ol>
 }
