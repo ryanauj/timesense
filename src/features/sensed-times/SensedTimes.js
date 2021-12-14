@@ -29,21 +29,23 @@ export const SensedTimes = () => {
       const sensedTimeIds = sensedTimeIdsByTargetTime[targetTime]
       console.log(sensedTimeIds)
       return (
-        <div>
+        <div className='sensed-times' key={targetTime}>
           <h4>Target Time: {targetTime}</h4>
-          {sensedTimeIds.map(sensedTimeId => {
-            console.log(sensedTimeId)
-            return (
-              <SensedTimeByTargetTimeAndId
-                key={sensedTimeId}
-                targetTime={targetTime}
-                sensedTimeId={sensedTimeId}
-              ></SensedTimeByTargetTimeAndId>
-            )
-          })}
+          <div className='sensed-times-content'>
+            {sensedTimeIds.map(sensedTimeId => {
+              console.log(sensedTimeId)
+              return (
+                <SensedTimeByTargetTimeAndId
+                  key={sensedTimeId}
+                  targetTime={targetTime}
+                  sensedTimeId={sensedTimeId}
+                ></SensedTimeByTargetTimeAndId>
+              )
+            })}
+          </div>
         </div>
       )
     }
   )
-  return <ol className='centered-past-times'>{pastSensedTimes}</ol>
+  return <ol>{pastSensedTimes}</ol>
 }
