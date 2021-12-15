@@ -157,19 +157,25 @@ input[type='password']:focus {
 }
 
 /* Past Times */
+.sensed-times-list {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
 
 .sensed-times-content {
-  display: grid;
-  min-width: 150px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   max-width: 800px;
-  grid-template-columns: repeat(auto-fit, 150px);
-  grid-template-rows: repeat(auto-fit, 100px);
-  grid-auto-flow: column;
   gap: 10px;
 }
 
 .sensed-time {
+  border: medium solid white;
   display: flex;
+  width: 150px;
+  height: 100px;
   justify-content: center;
   align-items: center;
   text-align: center;

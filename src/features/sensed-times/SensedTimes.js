@@ -47,5 +47,5 @@ export const SensedTimes = () => {
       )
     }
   )
-  return <ol>{pastSensedTimes}</ol>
+  return <div>{pastSensedTimes}</div>
 }
