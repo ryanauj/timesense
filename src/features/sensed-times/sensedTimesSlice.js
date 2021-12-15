@@ -1,29 +1,36 @@
-import {
-  createAsyncThunk,
-  createEntityAdapter,
-  createSlice
-} from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { API } from 'aws-amplify'
 import { RequestStatus } from '../../app/RequestStatus'
-import { SensedTimes } from './SensedTimes'
 
 const TimeSenseApi = 'TimeSenseApiTest'
 const SensedTimesPath = '/api/sensedTimes'
 
-const sensedTimesAdapter = createEntityAdapter({
-  sortComparer: (a, b) => b.createdAt.localeCompare(a.createdAt)
-})
-
-const initialState = sensedTimesAdapter.getInitialState({
+// STATE FORMAT - sensedTimes
+// sensedTimes: {
+//   byTargetTime : {
+//     1: {
+//       byId: {
+//         'abc': { ... }
+//       },
+//       allIds: ['abc']
+//     }
+//   },
+//   allTargetTimes: [1]
+// }
+const initialState = {
+  sensedTimes: {
+    byTargetTime: {},
+    allTargetTimes: []
+  },
   status: RequestStatus.Idle,
   error: null
-})
+}
 
 export const fetchSensedTimes = createAsyncThunk(
   'sensedTimes/fetchSensedTimes',
   async () => {
-    const sensedTimes = API.get(TimeSenseApi, SensedTimesPath)
-    console.log(SensedTimes)
+    const sensedTimes = await API.get(TimeSenseApi, SensedTimesPath)
+    console.log(sensedTimes)
     return sensedTimes
   }
 )
@@ -31,11 +38,9 @@ export const fetchSensedTimes = createAsyncThunk(
 export const addSensedTime = createAsyncThunk(
   'sensedTimes/addSensedTime',
   async sensedTime => {
-    console.log('sensedTime', sensedTime)
     const completeSensedTime = await API.post(TimeSenseApi, SensedTimesPath, {
       body: sensedTime
     })
-    console.log('completeSensedTime', completeSensedTime)
     return completeSensedTime
   }
 )
@@ -45,7 +50,10 @@ const sensedTimesSlice = createSlice({
   initialState,
   reducers: {
     sensedTimesCleared: state => {
-      sensedTimesAdapter.removeAll(state)
+      state.sensedTimes = {
+        byTargetTime: {},
+        allTargetTimes: []
+      }
       state.status = RequestStatus.Idle
     }
   },
@@ -53,24 +61,78 @@ const sensedTimesSlice = createSlice({
     [fetchSensedTimes.pending]: (state, action) => {
       state.status = RequestStatus.Pending
     },
+    // PAYLOAD FORMAT:
+    // [ {id: 'abc', targetTime: 1, actualTime: 0.89} ]
     [fetchSensedTimes.fulfilled]: (state, action) => {
       state.status = RequestStatus.Succeeded
-      sensedTimesAdapter.upsertMany(state, action.payload)
+      const sensedTimes = {
+        byTargetTime: {},
+        allTargetTimes: []
+      }
+
+      for (let sensedTime of action.payload) {
+        const { id, targetTime } = sensedTime
+        if (!(targetTime in sensedTimes.byTargetTime)) {
+          sensedTimes.byTargetTime[targetTime] = {
+            byId: {},
+            allIds: []
+          }
+          sensedTimes.allTargetTimes.push(targetTime)
+        }
+
+        if (!(id in sensedTimes.byTargetTime[targetTime].byId)) {
+          sensedTimes.byTargetTime[targetTime].allIds.push(id)
+        }
+        sensedTimes.byTargetTime[targetTime].byId[id] = sensedTime
+      }
+
+      state.sensedTimes = { ...sensedTimes }
     },
     [fetchSensedTimes.rejected]: (state, action) => {
       state.status = RequestStatus.Failed
       state.error = action.error.message
     },
-    [addSensedTime.fulfilled]: sensedTimesAdapter.addOne
+    [addSensedTime.fulfilled]: (state, action) => {
+      const sensedTime = action.payload
+      const targetTime = sensedTime.targetTime
+      if (!(targetTime in state.sensedTimes)) {
+        state.sensedTimes[targetTime] = [sensedTime]
+      } else {
+        state.sensedTimes[targetTime].push(sensedTime)
+      }
+    }
   }
 })
 
 export const { sensedTimesCleared } = sensedTimesSlice.actions
 
-export const {
-  selectById: selectSensedTimeById,
-  selectIds: selectSensedTimeIds
-} = sensedTimesAdapter.getSelectors(state => state.sensedTimes)
+export const selectSensedTimeByTargetTimeAndId = (state, targetTime, id) => {
+  const sensedTimes = state.sensedTimes.sensedTimes
+  console.log(sensedTimes)
+  const sensedTimesByTargetTime = sensedTimes.byTargetTime[targetTime]
+  console.log(sensedTimesByTargetTime, targetTime)
+  const sensedTimesByTargetTimeById = sensedTimesByTargetTime.byId[id]
+  console.log(sensedTimesByTargetTimeById, id)
+  return sensedTimesByTargetTimeById
+}
+
+export const selectSensedTimeIdsByTargetTime = state => {
+  const allSensedTimes = state.sensedTimes.sensedTimes
+
+  const sensedTimesByTargetTime = Object.entries(allSensedTimes.byTargetTime)
+  if (!sensedTimesByTargetTime || sensedTimesByTargetTime.length === 0) {
+    return {}
+  }
+
+  const reducer = (sensedTimeIdsByTargetTime, [targetTime, sensedTimes]) => {
+    sensedTimeIdsByTargetTime[targetTime] = sensedTimes.allIds
+    return sensedTimeIdsByTargetTime
+  }
+
+  const results = sensedTimesByTargetTime.reduce(reducer, {})
+
+  return results
+}
 
 export const selectSensedTimesStatus = state => state.sensedTimes.status
 
