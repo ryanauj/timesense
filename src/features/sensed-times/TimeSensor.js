@@ -58,6 +58,9 @@ const Wrapper = styled.div`
   }
 `
 
+const randomNumberInRange = (min = 1, range = 10) =>
+  Math.floor(Math.random() * range) + min
+
 const TimeSensor = () => {
   const dispatch = useDispatch()
 
@@ -69,7 +72,7 @@ const TimeSensor = () => {
   const [displaySensedTime, setDisplaySensedTime] = useState(false)
   const [targetSensedTime, targetSensedTimeInput] = useInput({
     type: 'number',
-    initialValue: '0',
+    initialValue: randomNumberInRange(),
     className: 'center-horizontally',
     min: 0
   })

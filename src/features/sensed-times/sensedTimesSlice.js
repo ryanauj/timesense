@@ -94,11 +94,19 @@ const sensedTimesSlice = createSlice({
     },
     [addSensedTime.fulfilled]: (state, action) => {
       const sensedTime = action.payload
-      const targetTime = sensedTime.targetTime
-      if (!(targetTime in state.sensedTimes)) {
-        state.sensedTimes[targetTime] = [sensedTime]
+      const { id, targetTime } = sensedTime
+      if (!(targetTime in state.sensedTimes.byTargetTime)) {
+        state.sensedTimes.byTargetTime[targetTime] = {
+          byId: {
+            [id]: sensedTime
+          },
+          allIds: [id]
+        }
       } else {
-        state.sensedTimes[targetTime].push(sensedTime)
+        state.sensedTimes.byTargetTime[targetTime].byId[id] = sensedTime
+        if (!(id in state.sensedTimes.byTargetTime[targetTime].allIds)) {
+          state.sensedTimes.byTargetTime[targetTime].allIds.push(id)
+        }
       }
     }
   }
