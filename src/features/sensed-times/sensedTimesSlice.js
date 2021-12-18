@@ -4,6 +4,7 @@ import { RequestStatus } from '../../app/RequestStatus'
 
 const TimeSenseApi = 'TimeSenseApiTest'
 const SensedTimesPath = '/api/sensedTimes'
+const SensedTimesByTargetTimePath = '/api/sensedTimes/target'
 
 // STATE FORMAT - sensedTimes
 // sensedTimes: {
@@ -26,10 +27,11 @@ const initialState = {
   error: null
 }
 
-export const fetchSensedTimes = createAsyncThunk(
-  'sensedTimes/fetchSensedTimes',
-  async () => {
-    const sensedTimes = await API.get(TimeSenseApi, SensedTimesPath)
+export const fetchSensedTimesByTargetTime = createAsyncThunk(
+  'sensedTimes/fetchSensedTimesByTargetTime',
+  async (limit = 5) => {
+    const path = `${SensedTimesByTargetTimePath}/latest/${limit}`
+    const sensedTimes = await API.get(TimeSenseApi, path)
     console.log(sensedTimes)
     return sensedTimes
   }
@@ -58,37 +60,41 @@ const sensedTimesSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchSensedTimes.pending]: (state, action) => {
+    [fetchSensedTimesByTargetTime.pending]: (state, action) => {
       state.status = RequestStatus.Pending
     },
     // PAYLOAD FORMAT:
-    // [ {id: 'abc', targetTime: 1, actualTime: 0.89} ]
-    [fetchSensedTimes.fulfilled]: (state, action) => {
+    // {
+    //   1: [
+    //     { id: 'abc', targetTime: 1, actualTime: 0.89 }
+    //   ]
+    // }
+    //
+    [fetchSensedTimesByTargetTime.fulfilled]: (state, action) => {
       state.status = RequestStatus.Succeeded
       const sensedTimes = {
         byTargetTime: {},
         allTargetTimes: []
       }
 
-      for (let sensedTime of action.payload) {
-        const { id, targetTime } = sensedTime
-        if (!(targetTime in sensedTimes.byTargetTime)) {
-          sensedTimes.byTargetTime[targetTime] = {
-            byId: {},
-            allIds: []
-          }
-          sensedTimes.allTargetTimes.push(targetTime)
+      for (let targetTime in action.payload) {
+        const sensedTimesByTarget = action.payload[targetTime]
+        sensedTimes.byTargetTime[targetTime] = {
+          byId: {},
+          allIds: []
         }
+        sensedTimes.allTargetTimes.push(targetTime)
 
-        if (!(id in sensedTimes.byTargetTime[targetTime].byId)) {
+        for (let sensedTime of sensedTimesByTarget) {
+          const id = sensedTime.id
+          sensedTimes.byTargetTime[targetTime].byId[id] = sensedTime
           sensedTimes.byTargetTime[targetTime].allIds.push(id)
         }
-        sensedTimes.byTargetTime[targetTime].byId[id] = sensedTime
       }
 
       state.sensedTimes = { ...sensedTimes }
     },
-    [fetchSensedTimes.rejected]: (state, action) => {
+    [fetchSensedTimesByTargetTime.rejected]: (state, action) => {
       state.status = RequestStatus.Failed
       state.error = action.error.message
     },
