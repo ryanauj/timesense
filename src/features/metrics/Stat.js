@@ -5,6 +5,7 @@ export const Stat = ({ label, value }) => {
     <div className='stat'>
       <label>{label}: </label>
       <span>{value}</span>
+      <hr></hr>
     </div>
   )
 }

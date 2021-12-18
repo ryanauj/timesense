@@ -262,19 +262,24 @@ input[type='password']:focus {
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: repeat(2, minmax(100px, 350px));
+  grid-template-columns: repeat(2, minmax(100px, 150px));
   margin: 10px;
   column-gap: 10px;
   border-color: var(--green);
   border-style: solid;
-  border-width: 10px;
+  border-width: 5px;
+  padding: 10px;
 }
 
 .stat {
   max-width: 150px;
-  padding: 10px;
 }
 
 .stat span {
   float: right;
+}
+
+.stat hr {
+  border: 1px solid var(--purple);
+  margin-top: 1px;
 }
