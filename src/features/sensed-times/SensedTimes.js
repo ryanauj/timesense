@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RequestStatus } from '../../app/RequestStatus'
 import { SensedTimeByTargetTimeAndId } from './SensedTimeByTargetTimeAndId'
 import {
-  fetchSensedTimes,
+  fetchSensedTimesByTargetTime,
   selectSensedTimeIdsByTargetTime,
   selectSensedTimesStatus
 } from './sensedTimesSlice'
@@ -18,7 +18,7 @@ export const SensedTimes = () => {
       sensedTimesStatus === RequestStatus.Idle ||
       sensedTimesStatus === RequestStatus.Failed
     ) {
-      dispatch(fetchSensedTimes()).unwrap()
+      dispatch(fetchSensedTimesByTargetTime()).unwrap()
     }
   })
 
