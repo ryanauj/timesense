@@ -2,6 +2,7 @@
 :root {
   --green: #69d675;
   --purple: #6373c7;
+  --blue: #6ee0e0;
 }
 
 body {
@@ -280,6 +281,6 @@ input[type='password']:focus {
 }
 
 .stat hr {
-  border: 1px solid var(--purple);
+  border: 1px solid var(--blue);
   margin-top: 1px;
 }
