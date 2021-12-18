@@ -24,9 +24,9 @@ export const Metrics = () => {
     }
   })
 
-  const averages = Object.keys(metrics).map(key => {
+  const metricsComponents = Object.keys(metrics).map(key => {
     return <Metric key={key} {...metrics[key]}></Metric>
   })
 
-  return <ol>{averages}</ol>
+  return <div className='metrics-list'>{metricsComponents}</div>
 }

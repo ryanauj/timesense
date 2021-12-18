@@ -1,4 +1,8 @@
 /* General */
+:root {
+  --green: #69d675;
+  --purple: #6373c7;
+}
 
 body {
   font-family: 'Titillium Web', sans-serif;
@@ -44,7 +48,7 @@ button {
 }
 
 .app-logo path {
-  fill: #69d675;
+  fill: var(--green);
 }
 
 /* NavBar */
@@ -70,14 +74,14 @@ ul.navbar li button {
   padding: 14px 16px;
   text-decoration: underline;
   text-decoration-thickness: 2px;
-  text-decoration-color: #6373c7;
+  text-decoration-color: var(--purple);
   text-underline-offset: 5px;
   transition: text-decoration-color 0.2s ease;
 }
 
 ul.navbar li a:hover,
 ul.navbar li button:hover {
-  text-decoration-color: #69d675;
+  text-decoration-color: var(--green);
 }
 
 ul.navbar li button {
@@ -119,7 +123,7 @@ form button {
   font-size: 1.1em;
   font-weight: 600;
   color: #152835;
-  background-color: #69d675;
+  background-color: var(--green);
   transition: background-color 0.2s ease;
 }
 
@@ -248,24 +252,29 @@ input[type='password']:focus {
 }
 
 /* Metrics */
+.metrics-list {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .metric {
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: 1fr 4fr;
+  grid-template-columns: repeat(2, minmax(100px, 350px));
   margin: 10px;
-}
-
-.metric .stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
   column-gap: 10px;
-  row-gap: 10px;
-  background-color: lightcyan;
+  border-color: var(--green);
+  border-style: solid;
+  border-width: 10px;
+}
+
+.stat {
+  max-width: 150px;
   padding: 10px;
 }
 
-.metric .stats .stat {
-  background-color: lightgray;
-  padding: 10px;
+.stat span {
+  float: right;
 }
