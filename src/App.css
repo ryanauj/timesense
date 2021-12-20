@@ -162,6 +162,10 @@ input[type='password']:focus {
 }
 
 /* Past Times */
+.sensed-times h4 {
+  cursor: pointer;
+}
+
 .sensed-times-list {
   display: block;
   margin-left: auto;
