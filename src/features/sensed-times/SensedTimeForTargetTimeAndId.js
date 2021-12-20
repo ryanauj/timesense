@@ -2,7 +2,7 @@ import { useSelector } from 'react-redux'
 import { selectSensedTimeByTargetTimeAndId } from './sensedTimesSlice'
 import { SensedTime } from './SensedTime'
 
-export const SensedTimeByTargetTimeAndId = ({ targetTime, sensedTimeId }) => {
+export const SensedTimeForTargetTimeAndId = ({ targetTime, sensedTimeId }) => {
   const sensedTime = useSelector(state =>
     selectSensedTimeByTargetTimeAndId(state, targetTime, sensedTimeId)
   )

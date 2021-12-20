@@ -29,9 +29,8 @@ const initialState = {
 
 export const fetchSensedTimesByTargetTime = createAsyncThunk(
   'sensedTimes/fetchSensedTimesByTargetTime',
-  async (limit = 5) => {
-    const path = `${SensedTimesByTargetTimePath}/latest/${limit}`
-    const sensedTimes = await API.get(TimeSenseApi, path)
+  async () => {
+    const sensedTimes = await API.get(TimeSenseApi, SensedTimesByTargetTimePath)
     console.log(sensedTimes)
     return sensedTimes
   }
