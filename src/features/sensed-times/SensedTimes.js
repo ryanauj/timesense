@@ -30,13 +30,13 @@ export const SensedTimes = () => {
     }
   })
 
-  console.log(sensedTimeIdsByTargetTime)
+  const allTargetTimes = targetTimes.map(targetTime => <div>{targetTime}</div>)
 
   const pastSensedTimes = targetTimes.map(targetTime => {
     const allSensedTimeIds = sensedTimeIdsByTargetTime[targetTime]
-    const [numToSlice, triangleIcon] = showAllTargetTimes[targetTime]
-      ? [allSensedTimeIds.length, <>&#9652;</>]
-      : [5, <>&#9660;</>]
+    const [numToSlice, className] = showAllTargetTimes[targetTime]
+      ? [allSensedTimeIds.length, 'selected']
+      : [0, 'unselected']
     const sensedTimeIds = sensedTimeIdsByTargetTime[targetTime].slice(
       0,
       numToSlice
@@ -45,6 +45,7 @@ export const SensedTimes = () => {
     return (
       <div className='sensed-times' key={targetTime}>
         <h4
+          className={className}
           onClick={() => {
             setShowAllTargetTimes({
               ...showAllTargetTimes,
@@ -52,9 +53,7 @@ export const SensedTimes = () => {
             })
           }}
         >
-          <b>
-            {triangleIcon} Target Time: {targetTime}
-          </b>
+          <b>Target Time: {targetTime}</b>
         </h4>
         <div className='sensed-times-content'>
           {sensedTimeIds.map(sensedTimeId => {

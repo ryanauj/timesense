@@ -3,12 +3,14 @@
   --green: #69d675;
   --purple: #6373c7;
   --blue: #6ee0e0;
+  --background: #152835;
+  --light: #f6fcf7;
 }
 
 body {
   font-family: 'Titillium Web', sans-serif;
-  color: #f6fcf7;
-  background-color: #152835;
+  color: var(--light);
+  background-color: var(--background);
   background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.3));
   min-height: 100vh;
 }
@@ -164,6 +166,16 @@ input[type='password']:focus {
 /* Past Times */
 .sensed-times h4 {
   cursor: pointer;
+  border: medium solid white;
+  padding: 10px;
+}
+
+.sensed-times h4.unselected {
+  background-color: none;
+}
+
+.sensed-times h4.selected {
+  background-color: var(--purple);
 }
 
 .sensed-times-list {
@@ -267,24 +279,60 @@ input[type='password']:focus {
   display: grid;
   justify-content: center;
   align-content: center;
-  grid-template-columns: repeat(2, minmax(100px, 150px));
-  margin: 10px;
+  grid-template-columns: repeat(6, minmax(100px, 150px));
+  margin: 30px;
   column-gap: 10px;
-  border-color: var(--green);
+  border-color: var(--purple);
   border-style: solid;
   border-width: 5px;
-  padding: 10px;
+  padding: 5px;
 }
 
-.stat {
-  max-width: 150px;
+@media screen and (max-width: 730px) {
+  .metric {
+    grid-template-columns: repeat(3, minmax(100px, 150px));
+  }
 }
+
+@media screen and (max-width: 400px) {
+  .metric {
+    grid-template-columns: repeat(2, minmax(100px, 150px));
+    margin: 10px;
+  }
+}
+
+.metric.selected {
+  padding: 5px;
+}
+
+/* .stat {
+  border: 2px solid var(--background);
+  max-width: 150px;
+  padding: 3px;
+} */
+
+.stat label {
+  font-size: small;
+}
+
+/* .stat.target label {
+  font-size: medium;
+} */
 
 .stat span {
   float: right;
 }
 
-.stat hr {
+.stat.target hr {
   border: 1px solid var(--blue);
   margin-top: 1px;
 }
+
+.stat hr {
+  border: 1px solid var(--purple);
+  margin-top: 1px;
+}
+
+/* .stat.target {
+  border-color: white;
+} */
