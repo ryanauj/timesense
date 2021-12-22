@@ -11,7 +11,11 @@ export const Metric = ({
 }) => {
   return (
     <div className='metric'>
-      <Stat label='Target' value={targetTime}></Stat>
+      <Stat
+        label='Target'
+        value={<b>{targetTime}</b>}
+        classNames={['target']}
+      ></Stat>
       <Stat label='Average' value={formatDecimal(actualTime)}></Stat>
       <Stat label='Attempts' value={attempts}></Stat>
       <Stat label='Median' value={formatDecimal(median)}></Stat>
