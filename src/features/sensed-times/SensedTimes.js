@@ -30,7 +30,7 @@ export const SensedTimes = () => {
     }
   })
 
-  const allTargetTimes = targetTimes.map(targetTime => <div>{targetTime}</div>)
+  // const allTargetTimes = targetTimes.map(targetTime => <div>{targetTime}</div>)
 
   const pastSensedTimes = targetTimes.map(targetTime => {
     const allSensedTimeIds = sensedTimeIdsByTargetTime[targetTime]
