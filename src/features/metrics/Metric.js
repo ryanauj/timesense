@@ -7,10 +7,16 @@ export const Metric = ({
   median,
   min,
   max,
-  mostRecent: sensedTimes
+  mostRecent: sensedTimes,
+  onClick,
+  classNames
 }) => {
+  let className = 'metric'
+  for (let cn of classNames) {
+    className += ` ${cn}`
+  }
   return (
-    <div className='metric'>
+    <div className={className} onClick={onClick}>
       <Stat
         label='Target'
         value={<b>{targetTime}</b>}

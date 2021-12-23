@@ -26,16 +26,10 @@ export const Navbar = () => {
   const navLinks = isAuthenticated ? (
     <>
       <li>
-        <Link to='/'>Home</Link>
-      </li>
-      <li>
         <Link to='/sensor'>Sensor</Link>
       </li>
       <li>
         <Link to='/sensedTimes'>Sensed Times</Link>
-      </li>
-      <li>
-        <Link to='/metrics'>Metrics</Link>
       </li>
     </>
   ) : (
