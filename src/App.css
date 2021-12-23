@@ -164,11 +164,6 @@ input[type='password']:focus {
 }
 
 /* Past Times */
-.sensed-times h4 {
-  cursor: pointer;
-  border: medium solid white;
-  padding: 10px;
-}
 
 .sensed-times h4.unselected {
   background-color: none;
@@ -190,11 +185,12 @@ input[type='password']:focus {
   display: grid;
   grid-template-columns: repeat(var(--num-columns), minmax(var(--width), 1fr));
   gap: 10px;
+  margin-bottom: 48px;
 }
 
 .sensed-time {
   --height: 100px;
-  border: medium solid white;
+  border: 1px solid white;
   display: flex;
   height: var(--height);
   justify-content: center;
@@ -276,16 +272,19 @@ input[type='password']:focus {
 }
 
 .metric {
+  width: 100% - 16px;
+  cursor: pointer;
   display: grid;
   justify-content: center;
   align-content: center;
   grid-template-columns: repeat(6, minmax(100px, 150px));
-  margin: 30px;
+  grid-template-rows: 1fr min-content;
+  margin: 22px 0 8px;
   column-gap: 10px;
-  border-color: var(--purple);
-  border-style: solid;
-  border-width: 5px;
+  border: 1px solid var(--light);
   padding: 5px;
+  box-shadow: 0 4px 8px 0 rgba(165, 165, 165, 0.198),
+    0 6px 20px 0 rgba(165, 165, 165, 0.19);
 }
 
 @media screen and (max-width: 730px) {
@@ -297,12 +296,12 @@ input[type='password']:focus {
 @media screen and (max-width: 400px) {
   .metric {
     grid-template-columns: repeat(2, minmax(100px, 150px));
-    margin: 10px;
   }
 }
 
 .metric.selected {
-  padding: 5px;
+  border-width: 2px;
+  border-color: var(--green);
 }
 
 /* .stat {

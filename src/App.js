@@ -11,7 +11,6 @@ import { Signup } from './features/authentication/Signup'
 import { SensedTimes } from './features/sensed-times/SensedTimes'
 
 import Amplify from 'aws-amplify'
-import { Metrics } from './features/metrics/Metrics'
 import { HEADER_HEIGHT } from './constants/cssVars'
 
 Amplify.configure({
@@ -57,7 +56,6 @@ const App = () => {
           <Route exact path='/sensor' component={Dashboard} />
           <Route exact path='/login' component={Login} />
           <Route exact path='/signup' component={Signup} />
-          <Route exact path='/metrics' component={Metrics} />
           <Route exact path='/sensedTimes' component={SensedTimes} />
         </Switch>
       </Wrapper>

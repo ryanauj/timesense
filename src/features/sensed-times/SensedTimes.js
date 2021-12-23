@@ -7,11 +7,19 @@ import {
   selectSensedTimeIdsByTargetTime,
   selectSensedTimesStatus
 } from './sensedTimesSlice'
+import { Metric } from '../metrics/Metric'
+import {
+  selectMetricsStatus,
+  fetchMetrics,
+  selectMetrics
+} from '../metrics/metricsSlice'
 
 export const SensedTimes = () => {
   const dispatch = useDispatch()
   const sensedTimesStatus = useSelector(selectSensedTimesStatus)
   const sensedTimeIdsByTargetTime = useSelector(selectSensedTimeIdsByTargetTime)
+  const metricsStatus = useSelector(selectMetricsStatus)
+  const metrics = useSelector(selectMetrics)
 
   const targetTimes = Object.keys(sensedTimeIdsByTargetTime)
   const [showAllTargetTimes, setShowAllTargetTimes] = useState(
@@ -21,12 +29,20 @@ export const SensedTimes = () => {
     }, {})
   )
 
+  console.log(metrics)
+
   useEffect(() => {
     if (
       sensedTimesStatus === RequestStatus.Idle ||
       sensedTimesStatus === RequestStatus.Failed
     ) {
       dispatch(fetchSensedTimesByTargetTime()).unwrap()
+    }
+    if (
+      metricsStatus === RequestStatus.Idle ||
+      metricsStatus === RequestStatus.Failed
+    ) {
+      dispatch(fetchMetrics()).unwrap()
     }
   })
 
@@ -44,29 +60,33 @@ export const SensedTimes = () => {
     console.log(sensedTimeIds)
     return (
       <div className='sensed-times' key={targetTime}>
-        <h4
-          className={className}
-          onClick={() => {
-            setShowAllTargetTimes({
-              ...showAllTargetTimes,
-              [targetTime]: !showAllTargetTimes[targetTime]
-            })
-          }}
-        >
-          <b>Target Time: {targetTime}</b>
-        </h4>
-        <div className='sensed-times-content'>
-          {sensedTimeIds.map(sensedTimeId => {
-            console.log(sensedTimeId)
-            return (
-              <SensedTimeForTargetTimeAndId
-                key={sensedTimeId}
-                targetTime={targetTime}
-                sensedTimeId={sensedTimeId}
-              ></SensedTimeForTargetTimeAndId>
-            )
-          })}
-        </div>
+        {targetTime in metrics ? (
+          <Metric
+            key={targetTime}
+            {...metrics[targetTime]}
+            classNames={[className]}
+            onClick={() => {
+              setShowAllTargetTimes({
+                ...showAllTargetTimes,
+                [targetTime]: !showAllTargetTimes[targetTime]
+              })
+            }}
+          ></Metric>
+        ) : null}
+        {numToSlice !== 0 ? (
+          <div className='sensed-times-content'>
+            {sensedTimeIds.map(sensedTimeId => {
+              console.log(sensedTimeId)
+              return (
+                <SensedTimeForTargetTimeAndId
+                  key={sensedTimeId}
+                  targetTime={targetTime}
+                  sensedTimeId={sensedTimeId}
+                ></SensedTimeForTargetTimeAndId>
+              )
+            })}
+          </div>
+        ) : null}
       </div>
     )
   })
