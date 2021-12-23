@@ -86,7 +86,9 @@ export const SensedTimes = () => {
               )
             })}
           </div>
-        ) : null}
+        ) : (
+          <div className='sensed-times-content no-values'></div>
+        )}
       </div>
     )
   })
