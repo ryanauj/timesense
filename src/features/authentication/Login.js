@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 import { ERROR } from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
+import useShowPassword from '../../hooks/useShowPassword'
 import {
   selectAuthenticationError,
   selectIsAuthenticated,
@@ -17,11 +18,15 @@ export const Login = () => {
     initialValue: '',
     id: 'login_email'
   })
+
+  const [showPassword, showPasswordComponent] = useShowPassword()
+  const passwordVisibility = showPassword ? 'text' : 'password'
   const [password, passwordComponent, setPassword] = useInput({
-    type: 'password',
+    type: passwordVisibility,
     initialValue: '',
     id: 'login_password'
   })
+
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const error = useSelector(selectAuthenticationError)
 
@@ -54,7 +59,8 @@ export const Login = () => {
         {emailComponent}
         <label>Password</label>
         {passwordComponent}
-        {error && <div style={{color: ERROR }}>{error}</div>}
+        {showPasswordComponent}
+        {error && <div style={{ color: ERROR }}>{error}</div>}
         <button type='submit' disabled={!validateForm()}>
           Log in
         </button>

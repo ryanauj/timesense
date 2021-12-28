@@ -3,13 +3,13 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ERROR } from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
+import useShowPassword from '../../hooks/useShowPassword'
 import { selectSignUpError, signUp } from './authenticationSlice'
 import { Tile } from './Tile'
 
 export const Signup = () => {
   const dispatch = useDispatch()
   const [newUser, setNewUser] = useState(null)
-  const [showPassword, setShowPassword] = useState(false)
   const error = useSelector(selectSignUpError)
 
   const [email, emailComponent] = useInput({
@@ -18,6 +18,7 @@ export const Signup = () => {
     id: 'signup_email'
   })
 
+  const [showPassword, showPasswordComponent] = useShowPassword()
   const passwordVisibility = showPassword ? 'text' : 'password'
   const [password, passwordComponent] = useInput({
     type: passwordVisibility,
@@ -64,19 +65,7 @@ export const Signup = () => {
           <label>Confirm Password</label>
           {confirmPasswordComponent}
         </div>
-        <div className='showPasswordContainer'>
-          <input
-            value={showPassword}
-            onChange={e => setShowPassword(e.target.checked)}
-            type='checkbox'
-            className='showPassword'
-            id='showPassword'
-            name='showPassword'
-          />
-          <label className='showPassword' htmlFor='showPassword'>
-            Show Password
-          </label>
-        </div>
+        {showPasswordComponent}
         {error && <div style={{ color: ERROR }}>{error}</div>}
         <button type='submit' disabled={!validateForm()}>
           Sign up
