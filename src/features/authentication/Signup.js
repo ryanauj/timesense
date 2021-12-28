@@ -8,23 +8,27 @@ import { Tile } from './Tile'
 
 export const Signup = () => {
   const dispatch = useDispatch()
+  const [newUser, setNewUser] = useState(null)
+  const [showPassword, setShowPassword] = useState(false)
+  const error = useSelector(selectSignUpError)
+
   const [email, emailComponent] = useInput({
     type: 'email',
     initialValue: '',
     id: 'signup_email'
   })
+
+  const passwordVisibility = showPassword ? 'text' : 'password'
   const [password, passwordComponent] = useInput({
-    type: 'password',
+    type: passwordVisibility,
     initialValue: '',
     id: 'signup_password'
   })
   const [confirmPassword, confirmPasswordComponent] = useInput({
-    type: 'password',
+    type: passwordVisibility,
     initialValue: '',
     id: 'signup_confirm_password'
   })
-  const [newUser, setNewUser] = useState(null)
-  const error = useSelector(selectSignUpError)
 
   const validateForm = () =>
     email &&
@@ -60,7 +64,20 @@ export const Signup = () => {
           <label>Confirm Password</label>
           {confirmPasswordComponent}
         </div>
-        {error && <div style={{color: ERROR }}>{error}</div>}
+        <div className='showPasswordContainer'>
+          <input
+            value={showPassword}
+            onChange={e => setShowPassword(e.target.checked)}
+            type='checkbox'
+            className='showPassword'
+            id='showPassword'
+            name='showPassword'
+          />
+          <label className='showPassword' htmlFor='showPassword'>
+            Show Password
+          </label>
+        </div>
+        {error && <div style={{ color: ERROR }}>{error}</div>}
         <button type='submit' disabled={!validateForm()}>
           Sign up
         </button>

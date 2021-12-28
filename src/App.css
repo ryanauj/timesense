@@ -139,9 +139,7 @@ form h2 {
   text-align: center;
 }
 
-input[type='number'],
-input[type='email'],
-input[type='password'] {
+input {
   padding: 12px 20px;
   margin-top: 0.2em;
   margin-bottom: 0.7em;
@@ -153,14 +151,23 @@ input[type='password'] {
   width: 100%;
 }
 
-input[type='number']:focus,
-input[type='email']:focus,
-input[type='password']:focus {
+input:focus {
   border: 3px solid #555;
 }
 
 .sensor label {
   width: 100%;
+}
+
+.showPassword {
+  width: max-content;
+  margin: 0 4px;
+}
+
+.showPasswordContainer {
+  display: 'flex';
+  justify-content: 'center';
+  align-items: 'center';
 }
 
 /* Metrics */
