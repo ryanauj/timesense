@@ -30,7 +30,7 @@ export const Login = () => {
   const isAuthenticated = useSelector(selectIsAuthenticated)
   const error = useSelector(selectAuthenticationError)
 
-  if (isAuthenticated) return <Redirect push to='/sensedTimes' />
+  if (isAuthenticated) return <Redirect push to='/sensor' />
 
   const validateForm = () =>
     email && email.length > 0 && password && password.length > 0
