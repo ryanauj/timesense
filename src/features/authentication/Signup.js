@@ -3,28 +3,33 @@ import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ERROR } from '../../constants/cssVars'
 import useInput from '../../hooks/useInput'
+import useShowPassword from '../../hooks/useShowPassword'
 import { selectSignUpError, signUp } from './authenticationSlice'
 import { Tile } from './Tile'
 
 export const Signup = () => {
   const dispatch = useDispatch()
+  const [newUser, setNewUser] = useState(null)
+  const error = useSelector(selectSignUpError)
+
   const [email, emailComponent] = useInput({
     type: 'email',
     initialValue: '',
     id: 'signup_email'
   })
+
+  const [showPassword, showPasswordComponent] = useShowPassword()
+  const passwordVisibility = showPassword ? 'text' : 'password'
   const [password, passwordComponent] = useInput({
-    type: 'password',
+    type: passwordVisibility,
     initialValue: '',
     id: 'signup_password'
   })
   const [confirmPassword, confirmPasswordComponent] = useInput({
-    type: 'password',
+    type: passwordVisibility,
     initialValue: '',
     id: 'signup_confirm_password'
   })
-  const [newUser, setNewUser] = useState(null)
-  const error = useSelector(selectSignUpError)
 
   const validateForm = () =>
     email &&
@@ -60,7 +65,8 @@ export const Signup = () => {
           <label>Confirm Password</label>
           {confirmPasswordComponent}
         </div>
-        {error && <div style={{color: ERROR }}>{error}</div>}
+        {showPasswordComponent}
+        {error && <div style={{ color: ERROR }}>{error}</div>}
         <button type='submit' disabled={!validateForm()}>
           Sign up
         </button>

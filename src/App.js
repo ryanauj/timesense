@@ -12,6 +12,7 @@ import { SensedTimes } from './features/sensed-times/SensedTimes'
 
 import Amplify from 'aws-amplify'
 import { HEADER_HEIGHT } from './constants/cssVars'
+import { ForgotPassword } from './features/authentication/ForgotPassword'
 
 Amplify.configure({
   Auth: {
@@ -55,6 +56,7 @@ const App = () => {
           <Route exact path='/' component={Hero} />
           <Route exact path='/sensor' component={Dashboard} />
           <Route exact path='/login' component={Login} />
+          <Route exact path='/forgotPassword' component={ForgotPassword} />
           <Route exact path='/signup' component={Signup} />
           <Route exact path='/sensedTimes' component={SensedTimes} />
         </Switch>

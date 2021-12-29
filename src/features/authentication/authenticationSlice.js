@@ -7,7 +7,11 @@ const initialState = {
   authenticationStatus: RequestStatus.Idle,
   authenticationError: null,
   signUpStatus: RequestStatus.Idle,
-  signUpError: null
+  signUpError: null,
+  forgotPasswordStatus: RequestStatus.Idle,
+  forgotPasswordError: null,
+  forgotPasswordSubmitStatus: RequestStatus.Idle,
+  forgotPasswordSubmitError: null
 }
 
 export const selectAuthenticationRequestStatus = state =>
@@ -20,6 +24,12 @@ export const selectAuthenticationError = state =>
   state.authentication.authenticationError
 
 export const selectSignUpError = state => state.authentication.signUpError
+
+export const selectForgotPasswordError = state =>
+  state.authentication.selectForgotPasswordError
+
+export const selectForgotPasswordSubmitError = state =>
+  state.authentication.selectForgotPasswordSubmitError
 
 export const signIn = createAsyncThunk(
   'authentication/signIn',
@@ -53,6 +63,20 @@ export const checkAuthStatus = createAsyncThunk(
     } catch {
       return false
     }
+  }
+)
+
+export const forgotPassword = createAsyncThunk(
+  'authentication/forgotPassword',
+  async ({ email }) => {
+    await Auth.forgotPassword(email)
+  }
+)
+
+export const forgotPasswordSubmit = createAsyncThunk(
+  'authentication/forgotPasswordSubmit',
+  async ({ email, code, password }) => {
+    await Auth.forgotPasswordSubmit(email, code, password)
   }
 )
 
@@ -93,6 +117,26 @@ const authenticationSlice = createSlice({
     [signOut.rejected]: (state, action) => {
       state.signOutStatus = RequestStatus.Failed
       state.signOutError = action.error.message
+    },
+    [forgotPassword.pending]: state => {
+      state.forgotPasswordStatus = RequestStatus.Pending
+    },
+    [forgotPassword.fulfilled]: state => {
+      state.forgotPasswordStatus = RequestStatus.Succeeded
+    },
+    [forgotPassword.rejected]: (state, action) => {
+      state.forgotPasswordStatus = RequestStatus.Failed
+      state.forgotPasswordError = action.error.message
+    },
+    [forgotPasswordSubmit.pending]: state => {
+      state.forgotPasswordSubmitStatus = RequestStatus.Pending
+    },
+    [forgotPasswordSubmit.fulfilled]: state => {
+      state.forgotPasswordSubmitStatus = RequestStatus.Succeeded
+    },
+    [forgotPasswordSubmit.rejected]: (state, action) => {
+      state.forgotPasswordSubmitStatus = RequestStatus.Failed
+      state.forgotPasswordSubmitError = action.error.message
     },
     [checkAuthStatus.fulfilled]: (state, action) => {
       state.isAuthenticated = action.payload
