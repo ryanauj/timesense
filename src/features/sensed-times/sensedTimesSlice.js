@@ -77,7 +77,7 @@ const sensedTimesSlice = createSlice({
       }
 
       for (let targetTime in action.payload) {
-        const sensedTimesByTarget = action.payload[targetTime]
+        const sensedTimesByTarget = action.payload[targetTime].sensedTimes
         sensedTimes.byTargetTime[targetTime] = {
           byId: {},
           allIds: []
