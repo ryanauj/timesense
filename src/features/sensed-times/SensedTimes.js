@@ -44,7 +44,6 @@ export const SensedTimes = () => {
       0,
       numToSlice
     )
-    console.log(sensedTimeIds)
     return (
       <div className='sensed-times' key={targetTime}>
         {targetTime in metrics ? (
