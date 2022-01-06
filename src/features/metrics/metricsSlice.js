@@ -1,10 +1,6 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { API } from 'aws-amplify'
+import { createSlice } from '@reduxjs/toolkit'
 import { RequestStatus } from '../../app/RequestStatus'
 import { fetchSensedTimesByTargetTime } from '../sensed-times/sensedTimesSlice'
-
-const TimeSenseApi = 'TimeSenseApiTest'
-const MetricsPath = '/api/metrics'
 
 const initialState = {
   metrics: {},
