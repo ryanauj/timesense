@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { API } from 'aws-amplify'
 import { RequestStatus } from '../../app/RequestStatus'
+import { fetchSensedTimesByTargetTime } from '../sensed-times/sensedTimesSlice'
 
 const TimeSenseApi = 'TimeSenseApiTest'
 const MetricsPath = '/api/metrics'
@@ -23,15 +24,6 @@ export const selectMetrics = state => {
 export const selectMetricsStatus = state => state.metrics.status
 export const selectMetricsError = state => state.metrics.error
 
-export const fetchMetrics = createAsyncThunk(
-  'metrics/fetchMetrics',
-  async () => {
-    const metrics = API.get(TimeSenseApi, MetricsPath)
-    console.log(metrics)
-    return metrics
-  }
-)
-
 const metricsSlice = createSlice({
   name: 'metrics',
   initialState,
@@ -41,17 +33,22 @@ const metricsSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchMetrics.pending]: state => {
+    [fetchSensedTimesByTargetTime.pending]: state => {
       state.status = RequestStatus.Pending
     },
-    [fetchMetrics.fulfilled]: (state, action) => {
+    [fetchSensedTimesByTargetTime.fulfilled]: (state, action) => {
       state.status = RequestStatus.Succeeded
-      state.metrics = action.payload
+      const metrics = {}
+
+      for (let targetTime in action.payload) {
+        metrics[targetTime] = action.payload[targetTime].metrics
+      }
+
+      state.metrics = metrics
     },
-    [fetchMetrics.rejected]: (state, action) => {
+    [fetchSensedTimesByTargetTime.rejected]: (state, action) => {
       state.status = RequestStatus.Failed
       state.error = action.error.message
-      state.isAuthenticated = false
     }
   }
 })

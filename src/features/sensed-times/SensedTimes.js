@@ -8,17 +8,12 @@ import {
   selectSensedTimesStatus
 } from './sensedTimesSlice'
 import { Metric } from '../metrics/Metric'
-import {
-  selectMetricsStatus,
-  fetchMetrics,
-  selectMetrics
-} from '../metrics/metricsSlice'
+import { selectMetrics } from '../metrics/metricsSlice'
 
 export const SensedTimes = () => {
   const dispatch = useDispatch()
   const sensedTimesStatus = useSelector(selectSensedTimesStatus)
   const sensedTimeIdsByTargetTime = useSelector(selectSensedTimeIdsByTargetTime)
-  const metricsStatus = useSelector(selectMetricsStatus)
   const metrics = useSelector(selectMetrics)
 
   const targetTimes = Object.keys(sensedTimeIdsByTargetTime)
@@ -38,15 +33,7 @@ export const SensedTimes = () => {
     ) {
       dispatch(fetchSensedTimesByTargetTime()).unwrap()
     }
-    if (
-      metricsStatus === RequestStatus.Idle ||
-      metricsStatus === RequestStatus.Failed
-    ) {
-      dispatch(fetchMetrics()).unwrap()
-    }
   })
-
-  // const allTargetTimes = targetTimes.map(targetTime => <div>{targetTime}</div>)
 
   const pastSensedTimes = targetTimes.map(targetTime => {
     const allSensedTimeIds = sensedTimeIdsByTargetTime[targetTime]
