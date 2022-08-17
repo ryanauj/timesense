@@ -1,4 +1,10 @@
-# Getting Started with Create React App
+# TimeSense
+
+The frontend code for [TimeSense](https://timesense.tech/).
+
+API layer found [here](https://github.com/ryanauj/TimeSense.Api).
+
+## Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
