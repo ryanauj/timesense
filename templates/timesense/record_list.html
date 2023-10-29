@@ -7,7 +7,7 @@
         <div>
             <h2>{{ created_date }}</h2>
             {% for record in record_list %}
-                <a href="">
+                <a href="{% url 'timesense:detail' record.pk %}">
                     {{ record.created_at.time }} | Target: {{ record.target }}{{ record.unit.abbreviation }} - Actual: {{ record.actual }}{{ record.unit.abbreviation }}
                 </a>
             {% endfor %}
