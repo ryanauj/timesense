@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-from timesense.models import TimeRecord
-from timesense.services import map_records_by_date, map_record
+from timesense.models import TimeRecord, TimeUnit
+from timesense.services import map_records_by_date, map_record, map_units
 
 
 def record_list_view(request):
@@ -35,4 +35,13 @@ def record_detail_view(request, pk):
         request,
         "timesense/record_detail.html",
         context={"record": mapped_record},
+    )
+
+
+def timer_view(request):
+    units = TimeUnit.objects.all()
+    return render(
+        request,
+        "timesense/timer.html",
+        context={"units": map_units(units)},
     )

@@ -2,16 +2,26 @@ def convert_to_unit(time_ms, unit):
     return time_ms / unit.conversion_to_ms
 
 
+def map_unit(unit):
+    return {
+        "pk": unit.pk,
+        "name": unit.name,
+        "abbreviation": unit.abbreviation,
+        "conversion_to_ms": unit.conversion_to_ms
+    }
+
+
+def map_units(units):
+    return [map_unit(unit) for unit in units]
+
+
 def map_record(record):
     return {
         "pk": record.pk,
         "created_at": record.created_at,
         "target": convert_to_unit(record.target_ms, record.unit),
         "actual": convert_to_unit(record.actual_ms, record.unit),
-        "unit": {
-            "name": record.unit.name,
-            "abbreviation": record.unit.abbreviation,
-        },
+        "unit": map_unit(record.unit),
     }
 
 
