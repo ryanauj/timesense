@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block title %}Recorded Times{% endblock %}
+
+{% block content %}
+    {% for created_date, record_list in records_by_date.items %}
+        <div>
+            <h2>{{ created_date }}</h2>
+            {% for record in record_list %}
+                <a href="">
+                    {{ record.created_at.time }} | Target: {{ record.target }}{{ record.unit.abbreviation }} - Actual: {{ record.actual }}{{ record.unit.abbreviation }}
+                </a>
+            {% endfor %}
+        </div>
+    {% endfor %}
+{% endblock %}
