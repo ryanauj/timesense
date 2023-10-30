@@ -1,3 +1,6 @@
+from datetime import timedelta
+
+
 def convert_to_unit(time_ms, unit):
     return time_ms / unit.conversion_to_ms
 
@@ -7,7 +10,7 @@ def map_unit(unit):
         "pk": unit.pk,
         "name": unit.name,
         "abbreviation": unit.abbreviation,
-        "conversion_to_ms": unit.conversion_to_ms
+        "conversion_to_ms": unit.conversion_to_ms,
     }
 
 
@@ -15,10 +18,19 @@ def map_units(units):
     return [map_unit(unit) for unit in units]
 
 
+def get_all_user_records(user):
+    return user.records.select_related("unit").all()
+
+
+def get_user_record(user, pk):
+    return user.records.select_related("unit").get(pk=pk)
+
+
 def map_record(record):
     return {
         "pk": record.pk,
-        "created_at": record.created_at,
+        "created_at": record.created_at
+        - timedelta(hours=0, minutes=record.timezone_offset),
         "target": convert_to_unit(record.target_ms, record.unit),
         "actual": convert_to_unit(record.actual_ms, record.unit),
         "unit": map_unit(record.unit),

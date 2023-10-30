@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import models
 
 from timesense.services import convert_to_unit
@@ -21,6 +22,10 @@ class TimeRecord(models.Model):
     target_ms = models.IntegerField()
     actual_ms = models.IntegerField(null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    timezone_offset = models.SmallIntegerField(default=0)
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="records"
+    )
 
     def __str__(self):
         converted_time = convert_to_unit(self.actual_ms, self.unit)

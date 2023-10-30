@@ -4,7 +4,8 @@
 
 {% block content %}
 
-    <form action="">
+    <form action="" method="post">
+        {% csrf_token %}
         <label for="unit_select">Choose a Unit:</label>
 
         <select name="unit" id="unit_select">
@@ -14,19 +15,27 @@
         </select>
 
         <label for="target">Target:</label>
-        <input id="target" name="target" type="number">
-        <input id="target_ms" name="target_ms" type="number" disabled>
+        <input id="target" name="target" type="number" value="1">
+        <input id="target_ms" name="target_ms" type="number" hidden>
 
         <button type="button" id="start">Start</button>
         <button type="button" id="stop" hidden>Stop</button>
+        <button type="button" id="cancel" hidden>Cancel</button>
 
-        <button id="submit" type="submit" hidden>Submit</button>
+        <button id="submit" type="submit" hidden>
+            {% if authenticated %}
+                Submit
+            {% else %}
+                Reset
+            {% endif %}
+        </button>
 
         <p id="result"></p>
 
-        <input id="start_epoch_ms" name="start_epoch_ms" type="number" disabled>
-        <input id="stop_epoch_ms" name="stop_epoch_ms" type="number" disabled>
-        <input id="actual_ms" name="actual_ms" type="number" disabled>
+        <input id="start_epoch_ms" name="start_epoch_ms" type="number" hidden>
+        <input id="stop_epoch_ms" name="stop_epoch_ms" type="number" hidden>
+        <input id="actual_ms" name="actual_ms" type="number" hidden>
+        <input id="timezone_offset" name="timezone_offset" type="number" hidden>
     </form>
 
     <script>
@@ -39,28 +48,50 @@
         const actualMsInput = document.getElementById("actual_ms");
         const startEpochMsInput = document.getElementById("start_epoch_ms");
         const stopEpochMsInput = document.getElementById("stop_epoch_ms");
+        const timezoneOffsetInput = document.getElementById("timezone_offset");
 
         const startButton = document.getElementById("start");
         const stopButton = document.getElementById("stop");
+        const cancelButton = document.getElementById("cancel");
         const submitButton = document.getElementById("submit");
 
         const resultParagraph = document.getElementById("result");
 
         const conversionRate = () => units_by_pk[unit_select.value].conversion_to_ms;
+        const setTargetMsInputValue = () => {
+            targetMsInput.value = targetInput.value * conversionRate();
+        }
+        setTargetMsInputValue();
+
+        timezoneOffsetInput.value = new Date().getTimezoneOffset();
+        unit_select.onselectionchange = () => {
+            setTargetMsInputValue();
+        }
+        targetInput.onchange = () => {
+            setTargetMsInputValue();
+        }
 
         startButton.onclick = () => {
             startEpochMsInput.value = Date.now();
             targetInput.disabled = true;
-            targetMsInput.value = targetInput.value * conversionRate();
             startButton.hidden = true;
             stopButton.hidden = false;
+            cancelButton.hidden = false;
         };
         stopButton.onclick = () => {
             stopEpochMsInput.value = Date.now();
             stopButton.hidden = true;
+            cancelButton.hidden = true;
             submitButton.hidden = false;
             actualMsInput.value = stopEpochMsInput.value - startEpochMsInput.value
             resultParagraph.textContent = actualMsInput.value / conversionRate();
         };
+        cancelButton.onclick = () => {
+            startEpochMsInput.value = null;
+            targetInput.disabled = false;
+            startButton.hidden = false;
+            stopButton.hidden = true;
+            cancelButton.hidden = true;
+        }
     </script>
 {% endblock %}

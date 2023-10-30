@@ -6,11 +6,15 @@
     {% for created_date, record_list in records_by_date.items %}
         <div>
             <h2>{{ created_date }}</h2>
-            {% for record in record_list %}
-                <a href="{% url 'timesense:detail' record.pk %}">
-                    {{ record.created_at.time }} | Target: {{ record.target }}{{ record.unit.abbreviation }} - Actual: {{ record.actual }}{{ record.unit.abbreviation }}
-                </a>
-            {% endfor %}
+            <ul>
+                {% for record in record_list %}
+                    <li>
+                        <a href="{% url 'timesense:detail' record.pk %}">
+                            {{ record.created_at.time }} | Target: {{ record.target }}{{ record.unit.abbreviation }} - Actual: {{ record.actual }}{{ record.unit.abbreviation }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         </div>
     {% endfor %}
 {% endblock %}
