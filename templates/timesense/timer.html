@@ -15,7 +15,7 @@
         </select>
 
         <label for="target">Target:</label>
-        <input id="target" name="target" type="number" value="1">
+        <input id="target" name="target" type="number" value="{{ last_recorded.target|default:1 }}">
         <input id="target_ms" name="target_ms" type="number" hidden>
 
         <button type="button" id="start">Start</button>

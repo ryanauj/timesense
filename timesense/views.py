@@ -49,6 +49,7 @@ def timer_view(request):
             record.user = request.user
             record.save()
             redirect("timesense:timer")
+            previous = map_record(record)
         else:
             print(form.errors)
 
